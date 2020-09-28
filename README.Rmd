@@ -5,6 +5,7 @@ output: github_document
 # plinko: Animated Plinko boards
 
 <!-- badges: start -->
+[![R build status](https://github.com/mjskay/plinko/workflows/R-CMD-check/badge.svg)](https://github.com/mjskay/plinko/actions)
 <!-- badges: end -->
 
 `plinko` is an R package for creating animated Plinko boards (as known as Galton 
