@@ -1,0 +1,21 @@
+Package: plinko
+Title: Animated Plinko boards
+Version: 0.1.0.9000
+Authors@R: 
+    person(given = "Matthew",
+           family = "Kay",
+           role = c("aut", "cre"),
+           email = "mjskay@northwestern.edu",
+           comment = c(ORCID = "0000-0001-9446-0419"))
+Description: Create animated Plinko boards (as known as Galton boards, 
+    quincunxes, or bean machines). Helps determine Plinko board parameters
+    and generates plausible paths through a Plinko board that result in a
+    desired sample or set of quantiles, then renders the Plinko board as
+    an animated GIF or video.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat

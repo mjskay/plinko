@@ -1,0 +1,12 @@
+url: http://mjskay.github.io/plinko
+
+
+template:
+  params:
+    bootswatch: paper
+    ganalytics: UA-93322-5
+
+
+authors:
+  Matthew Kay:
+    href: http://www.mjskay.com
