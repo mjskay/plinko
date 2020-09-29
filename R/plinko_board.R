@@ -70,6 +70,29 @@ plinko_board = function(
   board = create_pins(board)
   board = create_paths(board)
   board = create_frames(board)
+
+  # customizable pre-defined layers (can be changed with modify_layer())
+  board$ggplot_layers = list(
+    "slot_edges" = list(geom = quote(geom_segment), data = quote(slot_edges(board)),
+      mapping = aes(x = x, y = 0, xend = x, yend = height), colour = "gray75", size = 1
+    ),
+    "pins" = list(geom = quote(geom_point), data = quote(pins(board)),
+      mapping = aes(x = x, y = y), shape = 19, colour = "#e41a1c", size = 1
+    ),
+    "paths" = list(geom = quote(geom_path), data = quote(paths(board)),
+      mapping = aes(x = x, y = y, group = ball_id), alpha = 1/4, colour = "gray50", size = 1
+    ),
+    "balls" = list(geom = quote(geom_circle), data = quote(balls_df),
+      mapping = aes(x0 = x, y0 = y, r = width/2), fill = "#1f78b4", colour = NA
+    ),
+    "dist" = list(geom = quote(geom_step), data = quote(dist_df),
+      mapping = aes(x = x, y = y), colour = "black", alpha = 0.75, size = 1, direction = "mid"
+    )
+  )
+
+  # user-defined layers (can be added to with `+`)
+  board$ggplot_user_layers = list()
+
   board
 }
 

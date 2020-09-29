@@ -8,7 +8,7 @@ gganimate::animate
 #' with a few exceptions/additions noted below.
 #'
 #' @inheritParams gganimate::animate
-#' @inheritParams plot.plinko_board
+#' @inheritParams autoplot.plinko_board
 #' @param plot A [plinko_board()] object
 #' @param device A device function used to render images. Default `ragg::agg_png`
 #'   is faster and produces higher-quality output than the base `png` function.

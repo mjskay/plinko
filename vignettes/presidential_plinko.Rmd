@@ -80,17 +80,19 @@ board
 
 The Plinko board will automatically find random paths the balls could have taken
 to end up in their final locations. We can see these paths by plotting the board
-board with the `plot()` function, which returns a `ggplot()` object:
+board with the `autoplot()` function, which returns a `ggplot()` object:
 
 ```{r}
-plot(board)
+board %>%
+  modify_layer("paths", aes(color = x)) %>%
+  autoplot()
 ```
 
 By default the plot overlays the Binomial distribution implied by the Plinko board so 
 you can judge the quality of the approximation. We can also turn this off:
 
 ```{r}
-plot(board, show_dist = FALSE)
+autoplot(board, show_dist = FALSE)
 ```
 
 We could also create a plot like the one above manually by using the `slot_edges()`, `pins()`, `paths()`, and `balls()`
@@ -115,7 +117,7 @@ You can also see the board without paths by passing `show_paths = FALSE`, and yo
 can plot specific frames of the animation by passing the `frame` parameter:
 
 ```{r}
-plot(board, show_paths = FALSE, frame = 9)
+autoplot(board, show_paths = FALSE, frame = 9)
 ```
 
 
