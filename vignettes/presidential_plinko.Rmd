@@ -10,6 +10,10 @@ vignette: >
 The following code constructs a Plinko board for a quantile dotplot of a
 predictive distribution for the 2020 US Presidential election outcome.
 
+See [presidential-plinko.com](https://presidential-plinko.com) and the 
+[mjskay/election-galton-board](https://github.com/mjskay/election-galton-board)
+repository for more information.
+
 ## Setup
 
 The following packages are required for this example:
@@ -26,292 +30,128 @@ library(tweenr)
 library(ragg)
 library(snakecase)
 library(gifski)
+
+theme_set(theme_ggdist())
 ```
 
-## Construct the board
+## Desired target sample
 
-To determine the board dimensions, we need to decide on the number of draws we will take and the number of pins in one row of the board (equivalently, the size of the Binomial distribution we are simulating with the board):
+Say we've taken 50 quantiles from a predictive distribution for the number of 
+electoral votes Biden will receive in the 2020 US Presidential election:
 
-```{r parameters}
-# these checks allow us to include this file at the end of binomial_approx_*.Rmd
-# to re-run this file using the output of the approximation
-if (!exists("n_draw")) n_draw = 50
-if (!exists("n_bin")) n_bin = 14
-if (!exists("bin_width")) bin_width = 42
-if (!exists("board_mean")) board_mean = 332
-if (!exists("row_ratio")) row_ratio = 2
-if (!exists("model_name")) model_name = "538"
-if (!exists("bin_values")) bin_values = qbinom(ppoints(n_draw), n_bin, 0.5)
+```{r}
+# this is based on the Economist's forecast as of Sept 27, 2020.
+x = c(200, 217, 228, 239, 249, 256, 264, 270, 274, 279, 285, 290,  292, 296, 302, 306, 308, 310, 316, 319, 319, 319, 323, 325, 329,  334, 335, 338, 340, 343, 347, 350, 352, 357, 357, 358, 361, 363,  368, 372, 374, 374, 377, 383, 388, 394, 399, 412, 415, 427)
 
-# n_bin = 14
-# bin_width = 42
-# board_mean = 332
-# row_ratio = 2
-# model_name = "538"
-# bin_values = c(3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6,  7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9,  9, 9, 9, 9, 9, 10, 10, 10, 11)
+tibble(x) %>%
+  ggplot(aes(x = x)) +
+  geom_dots() +
+  xlab("Predicted electoral votes for Biden")
+```
 
-# n_bin = 8
-# bin_width = 39
-# board_mean = 327.5
-# row_ratio = 2
-# model_name = "The Economist"
-# bin_values = c(1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  5, 5, 6, 6, 6, 6, 6, 6, 7)
+What we would like to do is construct a Plinko board that "sediments" into this dotplot. That is,
+it gives us an animation of a plausible random process that could have led to a dotplot
+that looks like the one above. This will take several steps.
 
-# bin_values = qbinom(ppoints(n_draw), n_bin, 0.5)
+## Constructing the board
 
-# the sample() call here is just so that ball order is random
-# otherwise our animation would have balls fall in order from
-# left to right.
+First, to determine the board dimensions, we need to decide on the number of draws we will 
+take and the number of pins in one row of the board (equivalently, the size of the Binomial 
+distribution we are simulating with the board):
+
+```{r}
+n_bin = 8
+bin_width = 38
+```
+
+Then we can construct the Plinko board:
+
+```{r}
 set.seed(12345)
-bin_values = sample(bin_values, n_draw)
-
-x_min = 0
-x_max = 538
-
-friction = 0
-elasticity = 0
-
-show_dist = FALSE
-one_frame = FALSE
-```
-
-Now we can determine the dimensions of the board required:
-
-```{r dimensions}
-row_height = bin_width * row_ratio
-# ball width is just a bit smaller than the bins
-ball_width = bin_width * 0.9 # 14/15
-# slot height needs to accommodate the tallest bin in the distribution plus some leeway
-slot_height = dbinom(round(n_bin/2), n_bin, 0.5) * n_draw * ball_width * 1.3
-board_height = slot_height + n_bin * row_height
-total_height = 2445 # board_height + 15 * bin_width
-```
-
-### Slots
-
-Next, we create slots the balls will fall into:
-
-```{r slots}
-slot_edges = seq(-(n_bin + 1)/2, (n_bin + 1)/2) * bin_width + board_mean
-
-# restrict ourselves to the predefined min/max x, if necessary
-slot_edges = slot_edges[x_min - bin_width < slot_edges & slot_edges < x_max + bin_width]
-
-# extend out the left and right edges to predefined min/max x, if necessary
-slot_edges = c(
-  rev(seq(min(slot_edges), x_min - bin_width, by = -bin_width)),
-  slot_edges[-c(1, length(slot_edges))],
-  seq(max(slot_edges), x_max + bin_width, by = bin_width)
+board = plinko_board(
+  x, n_bin, bin_width, center = 326,
+  n_ball = 1,
+  limits = c(0, 538)#, total_height = 2445
 )
-
-# make the slot edges at the ends of the board 
-# go all the way up the height of the board
-slot_heights = rep(slot_height, length(slot_edges))
-slot_heights[[1]] = board_height
-slot_heights[[length(slot_heights)]] = board_height
-
-slots_df = data.frame(
-  x = slot_edges,
-  height = slot_heights
-)
+board
 ```
 
-### Pins
+## Plotting the board
 
-Next, we can create the grid of pins:
-
-```{r pins}
-pins_df = data.frame()
-for (i in 1:n_bin) {
-  y = slot_height + (n_bin - i) * row_height
-  
-  xs = slot_edges
-  if (i %% 2 == 1) {
-    xs = xs + bin_width/2
-  }
-  
-  # restrict ourselves to the predefined min/max x
-  xs = xs[min(slot_edges) + bin_width/2 < xs & xs < max(slot_edges) - bin_width/2]
-
-  pins_df = rbind(pins_df, data.frame(x = xs, y = y))
-}
-```
-
-As a sanity check, we'll verify the pin and slot locations:
-
-```{r base_plot}
-board_plot = ggplot() + 
-  geom_segment(data = slots_df, aes(x = x, y = 0, xend = x, yend = height), size = 1) + 
-  geom_point(aes(x, y), data = pins_df, shape = 1, color = "red") +
-  coord_fixed() + 
-  theme_ggdist() 
-
-board_plot
-```
-## Final ball positions
-
-Instead of simulating the ball's path through the pins with a physics engine (as in [galton_board.Rmd](galton_board.Rmd)), we will construct a representative final distribution
-through quantiles, then determine random paths that could have led to that distribution.
-
-So first, let's determine the final positions of each ball:
+The Plinko board will automatically find random paths the balls could have taken
+to end up in their final locations. We can see these paths by plotting the board
+board with the `plot()` function, which returns a `ggplot()` object:
 
 ```{r}
-final_balls_df = 
-  tibble(
-    ball_id = 1:n_draw,
-    bin = bin_values,
-    pin = bin * 2, # pin locations are every half-bin
-    x = (bin - n_bin/2) * bin_width + board_mean,
-    move_id = n_bin + 2,
-  ) %>%
-  group_by(x) %>%
-  mutate(y = 1:n() * ball_width - ball_width/2)
+plot(board)
 ```
 
-Which looks like this:
+By default the plot overlays the Binomial distribution implied by the Plinko board so 
+you can judge the quality of the approximation. We can also turn this off:
 
 ```{r}
-board_plot = board_plot + 
-  geom_circle(
-    aes(x0 = x, y0 = y, r = ball_width/2), 
-    fill = "blue", color = NA, data = final_balls_df
-  )
-
-board_plot
+plot(board, show_dist = FALSE)
 ```
-## Ball paths
 
-Now we need to come up with paths for each ball that would cause them to end up in their final locations.
-Given the starting pin at the mean (`m`) and the final pin (`k`), we can use the fact that a ball in a bin
-centered at pin `k` ended up in that bin if and only if it traveled `k - m` pins over from the starting pin (I'll dub these *fixed moves*), plus an equal number of left and right movements (i.e. movements which cancel themselves out; I'll dub these *balanced moves*), *in any order* (modulo hitting the edge, which we're just gonna ignore for now). So we'll just figure out what set of moves are needed for each ball and then randomize the order of those moves to make a path.
+We could also create a plot like the one above manually by using the `slot_edges()`, `pins()`, `paths()`, and `balls()`
+unctions, which return data frames containing the locations of all of the elements of the board:
+
+```{r board_plot}
+ggplot() + 
+  geom_segment(aes(x = x, y = 0, xend = x, yend = height), data = slot_edges(board), color = "gray75", size = 1) + 
+  geom_point(aes(x, y), data = pins(board), shape = 19, color = "#e41a1c", size = 1) +
+  geom_path(aes(x = x, y = y, group = ball_id), data = paths(board), alpha = 1/4, size = 1, color = "gray50") +
+  geom_circle(aes(x0 = x, y0 = y, r = width/2), data = balls(board), fill = "#1f78b4", color = NA) +
+  coord_fixed(expand = FALSE, clip = "off") +
+  ylab("") +
+  scale_y_continuous(breaks = NULL) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.line.x = element_line(color = "gray75", size = 1)
+  ) 
+```
+
+You can also see the board without paths by passing `show_paths = FALSE`, and you 
+can plot specific frames of the animation by passing the `frame` parameter:
 
 ```{r}
-mean_pin = n_bin # would be n_bin / 2 * 2
-
-paths_df = final_balls_df %>%
-  group_by(ball_id) %>%
-  mutate(
-    # number of fixed moves (negative if fixed moves are to the left)
-    n_fixed_move = pin - mean_pin,
-    # number of balanced moves (half of these will be to the right and half to the left)
-    n_balanced_move = n_bin - abs(n_fixed_move),
-    n_move = abs(n_fixed_move) + n_balanced_move,
-    # list of moves where each move is -1 (left) or +1 (right) or 0 (start)
-    move = list(c(
-      0,
-      sample(
-        c(rep(sign(n_fixed_move), abs(n_fixed_move)), rep(-1, n_balanced_move/2), rep(1, n_balanced_move/2)),
-        size = n_move
-      )
-    ))
-  ) %>%
-  unnest(move) %>%
-  # determine actual positions at each step based on the accumulation of moves
-  mutate(
-    move_id = 1:n(),
-    x = cumsum(move * bin_width/2) + board_mean,
-    y = move_id * -row_height + board_height + ball_width/2
-  ) %>%
-  # add final positions
-  bind_rows(final_balls_df)
-
-#add initial ball positions at the drop location
-paths_df = paths_df %>%
-  filter(move_id == 1) %>%
-  mutate(
-    move_id = 0,
-    y = y + bin_width * 10
-  ) %>%
-  bind_rows(paths_df) %>%
-  mutate(move_id = move_id + 1)
-
-head(paths_df)
+plot(board, show_paths = FALSE, frame = 9)
 ```
 
-The result is a set of paths like this:
+
+
+## Animating the board
+
+By default, no tweening is done between balls on the board:
 
 ```{r}
-board_plot +
-  geom_path(aes(x = x, y = y, group = ball_id), data = paths_df, alpha = sqrt(1/n_draw))
+animate(board, fps = 7.5)
 ```
-## Construct animation frames
 
-Next, we construct a dataframe of animation frames by determining on each frame which
-move for each ball is visible (if any):
+Most likely you will want some tweening between ball states. I find that using 4 times the
+base number of frames with a `"bounce-out"` easing function makes for a smooth
+animation that feels more physically accurate. You can add tweening using the
+`tween_balls()` function:
 
 ```{r}
-frames_till_draw = 4
-
-# adding 44 gives some extra frames at the end for a pause
-n_frame = n_draw * frames_till_draw - (frames_till_draw - 1) + 45
-
-frames_df = map_dfr(1:n_frame, function(i) {
-  paths_df %>%
-    mutate(
-      frame_id = i,
-      visible_move_id = i - ball_id * frames_till_draw + 1 - (frames_till_draw - 1)
-    ) %>%
-    # keep only the moves we are showing in this frame
-    filter(
-      move_id == visible_move_id  |
-      # final ball position persists
-      (move_id == max(move_id) & move_id < visible_move_id)
-    ) %>%
-    ungroup()
-})
+board %>%
+  tween_balls(frame_mult = 4, ease = "bounce-out") %>%
+  animate(fps = 30)
 ```
 
-Then we tween each ball's position and add a "bounce" effect (the easing function). The following is essentially using `tweenr::tween_states()` to do what `gganimate::transition_states()` does under the hood, but we're doing it manually instead because gganimate is pretty slow on this animation. If we build up the animation manually it will go much faster (it's just a bit more work).
-
-```{r}
-frame_mult = 4
-
-tweened_frames_df = frames_df %>%
-  group_split(ball_id) %>%
-  map(function(frames) {
-    # frames is a data frame of all rows associated with a single ball
-    frames = frames %>%
-      group_split(frame_id) %>%
-      # some of the frames are empty (0 rows), corresponding to times when
-      # this ball is not visible. Need to filter those out for tweenr
-      keep(~ nrow(.x) != 0)
-    
-    frame_ids = map_dbl(frames, "frame_id")
-    min_frame_id = min(frame_ids)
-    max_frame_id = max(frame_ids)
-    n_frame =  max_frame_id - min_frame_id + 1
-
-    frames %>%
-      tween_states(
-        tweenlength = 2,
-        statelength = 0,
-        ease = "bounce-out",
-        nframes = n_frame * frame_mult
-      ) %>%
-      # the .frame column generated by tweenr starts at the wrong spot because
-      # we had to filter out empty rows above (corresponding to when the ball is not
-      # visible yet), so we will adjust the frame_id to start when this ball
-      # first becomes visible instead of at 1
-      mutate(frame_id = (min_frame_id - 1) * frame_mult + .frame)
-  }) %>%
-  bind_rows()
-```
-
-
-## Render animation
 
 First, we need to set up the output folder to hold the PNG files that will contain the frames:
 
 ```{r png_temp}
 png_dir = "png_temp"
 dir.create(png_dir, showWarnings = FALSE)
-unlink(list.files(png_dir, pattern = "*.png", full.names = TRUE))
+unlink(list.files(png_dir, pattern = "*.png", full.names = TRUE), expand = FALSE)
 ```
 
 Then, we render all frame of the Galton board one at a time into PNG files in the above directory.
 
 ```{r render_frames, message=FALSE, warning=FALSE, results=FALSE}
-x0 = seq(-n_bin/2, n_bin/2) * bin_width + board_mean
+x0 = seq(-n_bin/2, n_bin/2) * bin_width + center
 x0 = x0[min(slot_edges) < x0 & x0 < max(slot_edges)]
 
 # figure out aspect ratio
@@ -350,8 +190,8 @@ for (i in seq_along(tweened_frames)) {
       data = data.frame(x0),
       aes(
         x = x0,
-        y = n_draw * ball_width * dbinom(
-          round((x0 - board_mean)/bin_width + n_bin/2),
+        y = n_ball * ball_width * dbinom(
+          round((x0 - center)/bin_width + n_bin/2),
           size = n_bin,
           prob = 0.5
         )),
