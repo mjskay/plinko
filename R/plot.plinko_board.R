@@ -45,11 +45,6 @@ autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, s
 
   ggplot() +
     layers +
-    # geom_segment(aes(x = x, y = 0, xend = x, yend = height), data = slot_edges(board), color = "gray75", size = 1) +
-    # geom_point(aes(x, y), data = pins(board), shape = 19, color = "#e41a1c", size = 1) +
-    # (if (show_paths) geom_path(aes(x = x, y = y, group = ball_id), data = paths(board), alpha = 1/4, color = "gray50", size = 1)) +
-    # geom_circle(aes(x0 = x, y0 = y, r = width/2), data = balls_df, fill = "#1f78b4", color = NA) +
-    # (if (show_dist) geom_step(aes(x, y), data = dist_df, color = "black", alpha = 0.75, size = 1, direction = "mid")) +
     coord_fixed(expand = FALSE, clip = "off") +
     ylab("") +
     scale_y_continuous(breaks = NULL) +

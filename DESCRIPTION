@@ -19,13 +19,16 @@ Imports:
     rlang,
     purrr,
     ggplot2,
+    ggforce,
     gganimate,
     tweenr,
     ragg
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    gifski,
+    ggdist
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -31,6 +31,7 @@ globalVariables(c(
 #' @importFrom purrr map_dfr
 #' @importFrom dplyr tibble mutate group_by ungroup select %>% bind_rows case_when filter n
 #' @importFrom tidyr unnest
+#' @importFrom ggforce geom_circle
 #' @export
 plinko_board = function(
   x, n_bin, bin_width,
