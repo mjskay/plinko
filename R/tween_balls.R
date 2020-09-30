@@ -10,7 +10,8 @@
 #' @return A modifed `plinko_board()` with tweened frames added.
 #'
 #' @importFrom purrr map map_dbl keep
-#' @importFrom dplyr %>% bind_rows mutate group_split
+#' @importFrom dplyr %>% bind_rows mutate group_split as_tibble
+#' @importFrom tweenr tween_states
 #' @export
 tween_balls = function(board, frame_mult, ease = "bounce-out") { within(board, {
 

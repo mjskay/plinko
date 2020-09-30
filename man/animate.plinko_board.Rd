@@ -9,6 +9,8 @@
   fps = 10,
   renderer = gganimate::gifski_renderer(),
   device = ragg::agg_png,
+  start_pause = 0,
+  end_pause = 0,
   width = NULL,
   height = 800,
   res = 100,
@@ -27,9 +29,16 @@ animation. Gets a vector of paths to images along with the framerate. (default \
 \item{device}{A device function used to render images. Default \code{ragg::agg_png}
 is faster and produces higher-quality output than the base \code{png} function.}
 
+\item{start_pause, end_pause}{Number of times to repeat the first and last
+frame in the animation (default is \code{0} for both)}
+
 \item{width, height}{One of either \code{width} or \code{height} must be provided. The
 other dimension is automatically determined based on the aspect ratio of
 the Plinko board.}
+
+\item{res}{The resolution of the device. This setting will govern how device
+dimensions given in inches, centimeters, or millimeters will be converted
+to pixels. Further, it will be used to scale text sizes and linewidths}
 
 \item{show_dist}{Should an overlay of the binomial distribution for this
 Plinko board be shown?}

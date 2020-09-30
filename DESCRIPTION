@@ -15,8 +15,10 @@ Description: Create animated Plinko boards (as known as Galton boards,
 License: MIT + file LICENSE
 Imports:
     dplyr,
+    tidyr,
     rlang,
     purrr,
+    ggplot2,
     gganimate,
     tweenr,
     ragg

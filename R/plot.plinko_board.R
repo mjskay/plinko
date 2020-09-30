@@ -2,7 +2,8 @@
 #'
 #' Plots a single frame from a Plinko board animation.
 #'
-#' @param x A [plinko_board()] object
+#' @inheritParams ggplot2::autoplot
+#' @param object A [plinko_board()] object
 #' @param frame Which frame to plot (an integer). If `NULL` (the default), plots
 #'   the final frame (i.e. all the balls in their final positions).
 #' @param show_paths Should ball paths be shown?
@@ -56,5 +57,6 @@ autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, s
     theme(
       axis.line.y = element_blank(),
       axis.line.x = element_line(color = "gray75", size = 1)
-    )
+    ) +
+    board$ggplot_user_layers
 }

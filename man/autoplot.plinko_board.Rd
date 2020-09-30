@@ -7,6 +7,10 @@
 \method{autoplot}{plinko_board}(object, ..., frame = NULL, show_paths = TRUE, show_dist = TRUE)
 }
 \arguments{
+\item{object}{A \code{\link[=plinko_board]{plinko_board()}} object}
+
+\item{...}{other arguments passed to specific methods}
+
 \item{frame}{Which frame to plot (an integer). If \code{NULL} (the default), plots
 the final frame (i.e. all the balls in their final positions).}
 
@@ -14,8 +18,6 @@ the final frame (i.e. all the balls in their final positions).}
 
 \item{show_dist}{Should an overlay of the binomial distribution for this
 Plinko board be shown?}
-
-\item{x}{A \code{\link[=plinko_board]{plinko_board()}} object}
 }
 \description{
 Plots a single frame from a Plinko board animation.

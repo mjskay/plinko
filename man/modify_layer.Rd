@@ -4,7 +4,7 @@
 \alias{modify_layer}
 \title{Modify layers/geoms used to display a Plinko board}
 \usage{
-modify_layer(board, name, mapping = NULL, ...)
+modify_layer(board, name, mapping = aes(), ...)
 }
 \arguments{
 \item{board}{A \code{\link[=plinko_board]{plinko_board()}} object}

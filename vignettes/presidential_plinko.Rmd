@@ -40,13 +40,14 @@ Say we've taken 50 quantiles from a predictive distribution for the number of
 electoral votes Biden will receive in the 2020 US Presidential election:
 
 ```{r}
-# this is based on the Economist's forecast as of Sept 27, 2020.
-x = c(200, 217, 228, 239, 249, 256, 264, 270, 274, 279, 285, 290,  292, 296, 302, 306, 308, 310, 316, 319, 319, 319, 323, 325, 329,  334, 335, 338, 340, 343, 347, 350, 352, 357, 357, 358, 361, 363,  368, 372, 374, 374, 377, 383, 388, 394, 399, 412, 415, 427)
+# this 20 quantiles from the Economist's forecast as of Sept 29, 2020.
+x = c(213, 243, 266, 279, 290, 304, 310, 319, 323, 333, 339, 345,  352, 357, 363, 372, 374, 385.125, 399, 415)
 
 tibble(x) %>%
   ggplot(aes(x = x)) +
   geom_dots() +
-  xlab("Predicted electoral votes for Biden")
+  xlab("Predicted electoral votes for Biden") +
+  xlim(0, 538)
 ```
 
 What we would like to do is construct a Plinko board that "sediments" into this dotplot. That is,
@@ -60,31 +61,33 @@ take and the number of pins in one row of the board (equivalently, the size of t
 distribution we are simulating with the board):
 
 ```{r}
-n_bin = 8
-bin_width = 38
+n_bin = 6
+bin_width = 41
 ```
 
 Then we can construct the Plinko board:
 
 ```{r}
 set.seed(12345)
+
 board = plinko_board(
-  x, n_bin, bin_width, center = 326,
-  n_ball = 1,
+  x, n_bin, bin_width, center = 330.5,
   limits = c(0, 538)#, total_height = 2445
 )
+
 board
 ```
 
 ## Plotting the board
 
+### Using `autoplot()`
+
 The Plinko board will automatically find random paths the balls could have taken
 to end up in their final locations. We can see these paths by plotting the board
-board with the `autoplot()` function, which returns a `ggplot()` object:
+with the `autoplot()` function, which returns a `ggplot()` object:
 
 ```{r}
 board %>%
-  modify_layer("paths", aes(color = x)) %>%
   autoplot()
 ```
 
@@ -92,10 +95,20 @@ By default the plot overlays the Binomial distribution implied by the Plinko boa
 you can judge the quality of the approximation. We can also turn this off:
 
 ```{r}
-autoplot(board, show_dist = FALSE)
+board %>%
+  autoplot(show_dist = FALSE)
 ```
 
-We could also create a plot like the one above manually by using the `slot_edges()`, `pins()`, `paths()`, and `balls()`
+You can also see the board without paths by passing `show_paths = FALSE`, and you 
+can plot specific frames of the animation by passing the `frame` parameter:
+
+```{r}
+autoplot(board, show_paths = FALSE, frame = 9)
+```
+
+### Plotting manually
+
+We could also create a plot like the ones above manually by using the `slot_edges()`, `pins()`, `paths()`, and `balls()`
 unctions, which return data frames containing the locations of all of the elements of the board:
 
 ```{r board_plot}
@@ -113,157 +126,146 @@ ggplot() +
   ) 
 ```
 
-You can also see the board without paths by passing `show_paths = FALSE`, and you 
-can plot specific frames of the animation by passing the `frame` parameter:
+However, if you wish to customize the plot, it is probably easier to use the
+`modify_layer()` and `add_layers()` functions described in the next section, as
+these also impact the frames used when an animated plot is rendered.
+
+## Customizing frames
+
+You can customize the existing layers in the `ggplot` objects generated for 
+each frame using the `modify_layer()` function, which takes a layer name
+followed by parameters you would normally pass to a ggplot layer/geom.
+Aesthetic mappings you provide are merged with the existing aesthetics in the
+layer, and new arguments you provide override existing ones.
+
+For example, say you want to make the ball fill color depend on its x position, and
+change the outline color to be black:
 
 ```{r}
-autoplot(board, show_paths = FALSE, frame = 9)
+board %>%
+  modify_layer("balls", aes(fill = x), color = "black") %>%
+  autoplot(show_dist = FALSE)
 ```
 
+You can use `modify_layer()` to adjust the following layers:
 
+- "slot_edges": A `geom_segment()` that draws the edges of the slots
+- "pins": A `geom_point()` that draws the pins
+- "paths": A `geom_path()` that draws ball paths
+- "balls": A `geom_circle()` that draws the balls
+- "dist": A `geom_step()` that draws the reference binomial distribution
+
+When plotting a single frame, you can also add additional ggplot objects after
+the call to `autoplot()`, as with any ggplot object:
+
+```{r}
+board %>%
+  autoplot(show_dist = FALSE, show_paths = FALSE) +
+  geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1) +
+  annotate("label", x = 269, y = 1500, label = "269", hjust = 0.5, color = "gray50")
+```
+
+However, layers added in this way are not saved into the `board` object, and so 
+**will not be displayed when the board is animated**.
+
+To add ggplot objects to the `board` object so that they are displayed when the
+board is animated, you must use the `add_layers()` function *before* calling
+`autoplot()` or `animate()`. Here is the same example using `add_layers()`:
+
+```{r}
+board %>%
+  add_layers(
+    geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1),
+    annotate("label", x = 269, y = 1500, label = "269", hjust = 0.5, color = "gray50")
+  ) %>%
+  autoplot(show_dist = FALSE, show_paths = FALSE)
+```
+
+As static plots, both look identical. However, when we get to animating (next), 
+we'll have to use the `add_layers()` approach.
 
 ## Animating the board
 
 By default, no tweening is done between balls on the board:
 
 ```{r}
-animate(board, fps = 7.5)
+board %>%
+  # width is determined automatically based on height
+  animate(fps = 7.5, height = 500)
 ```
 
 Most likely you will want some tweening between ball states. I find that using 4 times the
-base number of frames with a `"bounce-out"` easing function makes for a smooth
+base number of frames with a `"bounce-out"` easing function (the default) makes for a smooth
 animation that feels more physically accurate. You can add tweening using the
-`tween_balls()` function:
+`tween_balls()` function. You'll also want to increase the `fps` to account for
+the additional frames, and we will add a 3-second (90-frame) pause at the end 
+of the animation using `end_pause`:
 
 ```{r}
 board %>%
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
-  animate(fps = 30)
+  animate(fps = 30, height = 500, end_pause = 90)
 ```
 
+For testing purposes (e.g. faster rendering), it can also be useful to filter the frames in the final animation.
+You can do this using `filter_frames()`, which takes filtering conditions in the same format
+as `filter()` and applies them to the data frame returned by `frames(board)`. The `"ball_id"` column
+can be combined with the `"stopped"` column (which is `TRUE` after the ball hits the 
+bottom of a slot and stops moving) to show just one ball dropping, for example:
 
-First, we need to set up the output folder to hold the PNG files that will contain the frames:
-
-```{r png_temp}
-png_dir = "png_temp"
-dir.create(png_dir, showWarnings = FALSE)
-unlink(list.files(png_dir, pattern = "*.png", full.names = TRUE), expand = FALSE)
+```{r}
+board %>%
+  filter_frames(ball_id == 1, !stopped) %>%
+  tween_balls(frame_mult = 4, ease = "bounce-out") %>%
+  animate(fps = 30, height = 500)
 ```
 
-Then, we render all frame of the Galton board one at a time into PNG files in the above directory.
+## A full, annotated board
 
-```{r render_frames, message=FALSE, warning=FALSE, results=FALSE}
-x0 = seq(-n_bin/2, n_bin/2) * bin_width + center
-x0 = x0[min(slot_edges) < x0 & x0 < max(slot_edges)]
+Finally, we can combine everything together to adjust the existing geometries 
+with `modify_layer()`, add annotations with `add_layers()`, add tweening
+with `tween_balls()`, then animate:
 
-# figure out aspect ratio
-height_px = 800
-width_px = (x_max - x_min + 90)/total_height * height_px
-
+```{r fig.height = 5, fig.width = 5}
 Biden_color = "#0571b0"
 Trump_color = "#ca0020"
 
-tweened_frames = group_split(tweened_frames_df, frame_id)
-# repeat the last frame to match up to the desired exact length of the animation
-last_frame = tweened_frames[length(tweened_frames)]
-tweened_frames = c(tweened_frames, rep(last_frame, n_frame * frame_mult - length(tweened_frames)))
+annotation_height = 1400
 
-pb = txtProgressBar(max = length(tweened_frames), style = 3, file = stderr())
-for (i in seq_along(tweened_frames)) {
-  tweened_frame = tweened_frames[[i]]
-  outfile <- sprintf("%s/%04i.png", png_dir, i)
-  agg_png(outfile, width = width_px, height = height_px, res = 100)
-  
-  p = ggplot(tweened_frame) + 
-    geom_point(aes(x, y), size = 1, shape = 18, color = "gray50", data = pins_df) +
-    geom_segment(
-      aes(x, 0, xend = x, yend = height),
-      size = 1, color = "gray75", data = slots_df
-    ) +
-    geom_circle(
-      aes(
-        x0 = x,
-        y0 = y,
-        r = ball_width/2,
-        fill = ifelse(y > slot_height, "none", ifelse(x <= 269, "Trump", "Biden")),
-        group = ball_id
-      ), color = NA) + 
-    (if (show_dist) geom_step(
-      data = data.frame(x0),
-      aes(
-        x = x0,
-        y = n_ball * ball_width * dbinom(
-          round((x0 - center)/bin_width + n_bin/2),
-          size = n_bin,
-          prob = 0.5
-        )),
-      col="black",
-      alpha = 0.2,
-      size = 1,
-      direction = "mid"
-    )) +
-    geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1) +
+board %>%
+  modify_layer("pins", color = "gray50") %>%
+  # the "balls" layer uses the frame(board) data frame, which has a "region"
+  # column giving the part of the board the ball is in ("start", "pin", or "slot")
+  # we can use this to change the ball color when it falls into the slot
+  modify_layer(
+    "balls", 
+    aes(fill = ifelse(region == "slot", ifelse(x <= 269, "Trump", "Biden"), "none")),
+    color = NA
+  ) %>%
+  add_layers(
+    geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1),
     annotate("text", 
-      x = 290, y = 0.95 * total_height, 
-      label = "Biden wins", hjust = 0, color = Biden_color
-      # fontface = "bold",
-    ) +
+      x = 290, y = 0.92 * annotation_height,
+      label = "Biden wins", hjust = 0, color = Biden_color,
+    ),
     annotate("text", 
-      x = 250, y = 0.95 * total_height,
+      x = 250, y = 0.92 * annotation_height,
       label = "Trump wins", hjust = 1, color = Trump_color
-      # fontface = "bold",
-    ) +
+    ),
     annotate("label", 
-      x = 269, y = 0.98 * total_height,
+      x = 269, y = 0.97 * annotation_height,
       label = "269", hjust = 0.5, color = "gray50",
       fontface = "bold"
-    ) +
+    ),
+    expand_limits(y = annotation_height),
     scale_fill_manual(
       limits = c("none", "Biden", "Trump"),
       values = c("gray45", Biden_color, Trump_color), 
       guide = FALSE
-    ) +
-    coord_fixed(ylim = c(0, total_height), xlim = c(x_min - 45, x_max + 45), 
-      expand = FALSE, clip = "off") + 
-    theme_ggdist() + 
-    theme(
-      axis.line.y = element_blank(),
-      axis.line.x = element_line(color = "gray75", size = 1),
-      axis.title.x = element_text(hjust = 0, size = 10, color = "gray25"),
-      plot.title = element_text(hjust = 0.5),
-      plot.title.position = "plot"
-    ) +
-    scale_y_continuous(breaks = NULL) +
-    scale_x_continuous(limits = range(slot_edges, x_min, x_max)) +
-    labs(
-      x = paste0("Electoral votes for Biden\n\nPresidential Plinko, ", format(Sys.Date(), "%b %d"), "\n", 
-        model_name, "'s model\n"),
-      y = NULL
-    ) +
-    ggtitle(model_name)
-  print(p)
-  invisible(dev.off())
-
-  setTxtProgressBar(pb, i)
-}
-```
-
-Finally, we use `gifski()` to roll all the frames into an animated GIF:
-
-```{r render_gif, message=FALSE, warning=FALSE, results=FALSE}
-gif_name = paste0("galton_board-", to_snake_case(model_name), ".gif")
-
-gifski(
-  list.files(png_dir, pattern = "*.png", full.names = TRUE), 
-  gif_name, 
-  width = width_px,
-  height = height_px,
-  delay = 1/30,
-  loop = TRUE,
-  progress = TRUE
-)
-```
-
-```{r echo=FALSE, results="asis"}
-cat("![](", gif_name, ")", sep = "")
+    ),
+    theme(axis.title.x = element_text(hjust = 0, size = 10, color = "gray25")),
+    xlab("Electoral votes for Biden")
+  ) %>%
+  tween_balls(frame_mult = 4, ease = "bounce-out") %>%
+  animate(fps = 30, height = 500)#, end_pause = 90)
 ```

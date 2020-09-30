@@ -1,3 +1,12 @@
+# TODO: might want to chuck the overuse of `within` and such and get rid of these
+globalVariables(c(
+  ".frame", "ball_id", "ball_width", "bin", "bin_width", "board_height", "center",
+  "frame_id", "frames_till_drop", "height", "move", "move_id", "n_balanced_move",
+  "n_ball", "n_bin", "n_fixed_move", "n_move", "paths_df", "pin", "region",
+  "row_height", "slot_height", "stopped", "visible_move_id", "width", "x",
+  "x_max", "x_min", "y"
+))
+
 #' Construct a Plinko board
 #'
 #' Constructs a semi-deterministic Plinko board. The board is semi-deterministic
@@ -17,8 +26,11 @@
 #'   Defaults to `4`.
 #'
 #' @return An object of class `c("plinko_board", "list")`.
+#'
 #' @importFrom rlang %||%
-#' @importFrom dplyr tibble mutate group_by ungroup select %>% bind_rows case_when
+#' @importFrom purrr map_dfr
+#' @importFrom dplyr tibble mutate group_by ungroup select %>% bind_rows case_when filter n
+#' @importFrom tidyr unnest
 #' @export
 plinko_board = function(
   x, n_bin, bin_width,
@@ -77,7 +89,7 @@ plinko_board = function(
       mapping = aes(x = x, y = 0, xend = x, yend = height), colour = "gray75", size = 1
     ),
     "pins" = list(geom = quote(geom_point), data = quote(pins(board)),
-      mapping = aes(x = x, y = y), shape = 19, colour = "#e41a1c", size = 1
+      mapping = aes(x = x, y = y), shape = 18, colour = "#e41a1c", size = 1
     ),
     "paths" = list(geom = quote(geom_path), data = quote(paths(board)),
       mapping = aes(x = x, y = y, group = ball_id), alpha = 1/4, colour = "gray50", size = 1
@@ -100,25 +112,28 @@ plinko_board = function(
 
 # accessors ---------------------------------------------------------------
 
-#' Get the slot edges in a Plinko board
+#' Get properties of a Plinko board
 #'
-#' Get the slot edges in a Plinko board
+#' Get slot edges, pins, paths, balls, or frames from a Plinko board.
+#'
+#' @name plinko_board-properties
+#' @param board A [plinko_board()]
+#' @return A data frame containing the requested properties of the Plinko board.
+NULL
+
+#' @describeIn plinko_board-properties Slot edges
 #' @export
 slot_edges = function(board) {
   board$slots_df
 }
 
-#' Get the pins in a Plinko board
-#'
-#' Get the pins in a Plinko board
+#' @describeIn plinko_board-properties Pin locations
 #' @export
 pins = function(board) {
   board$pins_df
 }
 
-#' Get the paths in a Plinko board
-#'
-#' Get the paths in a Plinko board
+#' @describeIn plinko_board-properties Ball paths from drop point to final location
 #' @export
 paths = function(board) {
   board$paths_df %>%
@@ -126,30 +141,25 @@ paths = function(board) {
     select(ball_id, move_id, bin, pin, x, y, width, region)
 }
 
-#' Get the balls in a Plinko board
-#'
-#' Get the final ball locations in a Plinko board
+#' @describeIn plinko_board-properties Ball final locations
 #' @export
 balls = function(board) {
   paths(board) %>%
     filter(move_id == max(move_id))
 }
 
-#' Get the frames in a Plinko board animation
-#'
-#' Get the frames in a Plinko board animation
+#' @describeIn plinko_board-properties Frames in the animation giving ball locations
 #' @export
 frames = function(board) {
   board$frames_df %>%
-    select(frame_id, ball_id, move_id, bin, pin, x, y, width, region)
+    select(frame_id, ball_id, move_id, bin, pin, x, y, width, region, stopped)
 }
 
 
 
 # helpers -----------------------------------------------------------------
 
-#' Create slots the balls will fall into
-#' @param x A plinko_board
+# Create slots the balls will fall into
 create_slots = function(board) { within(board, {
   slot_edges = seq(-(n_bin + 1)/2, (n_bin + 1)/2) * bin_width + center
 
@@ -175,8 +185,7 @@ create_slots = function(board) { within(board, {
   )
 })}
 
-#' Create the grid of pins
-#' @param x A plinko_board
+# Create the grid of pins
 create_pins = function(board) { within(board, {
   pins_df = tibble()
   for (i in 1:n_bin) {
@@ -194,8 +203,7 @@ create_pins = function(board) { within(board, {
   }
 })}
 
-#' Create the paths of the balls
-#' @param x A plinko_board
+# Create the paths of the balls
 create_paths = function(board) {
   # Instead of simulating the ball's path through the pins with a physics engine
   # determine random paths that could have led to the distribution we have
@@ -284,13 +292,14 @@ create_frames = function(board) { within(board, {
     paths_df %>%
       mutate(
         frame_id = i,
-        visible_move_id = i - (ball_id - 1) * frames_till_drop
+        visible_move_id = i - (ball_id - 1) * frames_till_drop,
+        # has the ball stopped moving?
+        stopped = move_id == max(move_id) & move_id < visible_move_id
       ) %>%
       # keep only the moves we are showing in this frame
       filter(
-        move_id == visible_move_id  |
-          # final ball position persists
-          (move_id == max(move_id) & move_id < visible_move_id)
+        # ball is falling OR has reached the bottom and is stopped
+        (move_id == visible_move_id) | stopped
       ) %>%
       ungroup()
   })

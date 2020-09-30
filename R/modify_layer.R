@@ -13,8 +13,12 @@
 #' @param ... Arguments to the geom you wish to change.
 #'
 #' @export
-modify_layer = function(board, name, mapping = NULL, ...) {
+modify_layer = function(board, name, mapping = aes(), ...) {
   new_args = list(...)
+
+  # standardize names
+  names(mapping) = standardise_aes_names(names(mapping))
+  names(new_args) = standardise_aes_names(names(new_args))
 
   # update aesthetics
   board$ggplot_layers[[name]]$mapping[names(mapping)] = mapping
@@ -23,6 +27,7 @@ modify_layer = function(board, name, mapping = NULL, ...) {
   board$ggplot_layers[[name]][names(mapping)] = NULL
 
   # update parameters
+
   board$ggplot_layers[[name]][names(new_args)] = new_args
 
   board
