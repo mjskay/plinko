@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • plinko</title>
+<title>Construct a Plinko board — plinko_board • plinko</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Construct a Plinko board — plinko_board" />
+<meta property="og:description" content="Constructs a semi-deterministic Plinko board. The board is semi-deterministic
+in that the final values are predetermined, but the paths to get from the
+drop point to the values are random." />
 
 
 
@@ -70,7 +73,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -124,84 +127,75 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Construct a Plinko board</h1>
+    
+    <div class="hidden name"><code>plinko_board.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Constructs a semi-deterministic Plinko board. The board is semi-deterministic
+in that the final values are predetermined, but the paths to get from the
+drop point to the values are random.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>plinko_board</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>n_bin</span>,
+  <span class='va'>bin_width</span>,
+  n_ball <span class='op'>=</span> <span class='cn'>NULL</span>,
+  center <span class='op'>=</span> <span class='cn'>NULL</span>,
+  limits <span class='op'>=</span> <span class='cn'>NULL</span>,
+  row_ratio <span class='op'>=</span> <span class='fl'>2</span>,
+  frames_till_drop <span class='op'>=</span> <span class='fl'>4</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="add_layers.html">add_layers()</a></code> </p>
-        </td>
-        <td><p>Add ggplot layers to a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="animate.plinko_board.html">animate(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Animate a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="autoplot.plinko_board.html">autoplot(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot a Plinko board as a ggplot2 plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_frames.html">filter_frames()</a></code> </p>
-        </td>
-        <td><p>Filter frames in a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="modify_layer.html">modify_layer()</a></code> </p>
-        </td>
-        <td><p>Modify layers/geoms used to display a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board-properties.html">slot_edges()</a></code> <code><a href="plinko_board-properties.html">pins()</a></code> <code><a href="plinko_board-properties.html">paths()</a></code> <code><a href="plinko_board-properties.html">balls()</a></code> <code><a href="plinko_board-properties.html">frames()</a></code> </p>
-        </td>
-        <td><p>Get properties of a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board.html">plinko_board()</a></code> </p>
-        </td>
-        <td><p>Construct a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tween_balls.html">tween_balls()</a></code> </p>
-        </td>
-        <td><p>Tween balls in a Plinko board</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>The final values that the Plinko board will "sediment" to.</p></td>
+    </tr>
+    <tr>
+      <th>n_bin</th>
+      <td><p>The number of bins used in the Binomial approximation of <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>bin_width</th>
+      <td><p>The width of the bins used in the Binomial approximation of <code>x</code></p></td>
+    </tr>
+    <tr>
+      <th>n_ball</th>
+      <td><p>The number of balls to drop. Defaults to <code><a href='https://rdrr.io/r/base/length.html'>length(x)</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>center</th>
+      <td><p>The location at which to drop balls. Defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean(x)</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>limits</th>
+      <td><p>The minimum and maximum value shown on the board. Defaults to
+<code><a href='https://rdrr.io/r/base/range.html'>range(x)</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>row_ratio</th>
+      <td><p>The ratio between the width of the slots and the height of
+a single row. Defaults to <code>2</code></p></td>
+    </tr>
+    <tr>
+      <th>frames_till_drop</th>
+      <td><p>The number of frames in between each drop of a ball.
+Defaults to <code>4</code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An object of class <code><a href='https://rdrr.io/r/base/c.html'>c("plinko_board", "list")</a></code>.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

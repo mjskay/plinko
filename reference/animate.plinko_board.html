@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • plinko</title>
+<title>Animate a Plinko board — animate.plinko_board • plinko</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Animate a Plinko board — animate.plinko_board" />
+<meta property="og:description" content="Animate a plinko_board() object. Follows the syntax for gganimate::animate()
+with a few exceptions/additions noted below." />
 
 
 
@@ -70,7 +72,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -124,84 +126,84 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Animate a Plinko board</h1>
+    
+    <div class="hidden name"><code>animate.plinko_board.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Animate a <code><a href='plinko_board.html'>plinko_board()</a></code> object. Follows the syntax for <code><a href='https://gganimate.com/reference/animate.html'>gganimate::animate()</a></code>
+with a few exceptions/additions noted below.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='co'># S3 method for plinko_board</span>
+<span class='fu'><a href='https://gganimate.com/reference/animate.html'>animate</a></span><span class='op'>(</span>
+  <span class='va'>plot</span>,
+  fps <span class='op'>=</span> <span class='fl'>10</span>,
+  renderer <span class='op'>=</span> <span class='fu'>gganimate</span><span class='fu'>::</span><span class='fu'><a href='https://gganimate.com/reference/renderers.html'>gifski_renderer</a></span><span class='op'>(</span><span class='op'>)</span>,
+  device <span class='op'>=</span> <span class='fu'>ragg</span><span class='fu'>::</span><span class='va'><a href='https://ragg.r-lib.org/reference/agg_png.html'>agg_png</a></span>,
+  start_pause <span class='op'>=</span> <span class='fl'>0</span>,
+  end_pause <span class='op'>=</span> <span class='fl'>0</span>,
+  width <span class='op'>=</span> <span class='cn'>NULL</span>,
+  height <span class='op'>=</span> <span class='fl'>800</span>,
+  res <span class='op'>=</span> <span class='fl'>100</span>,
+  show_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="add_layers.html">add_layers()</a></code> </p>
-        </td>
-        <td><p>Add ggplot layers to a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="animate.plinko_board.html">animate(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Animate a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="autoplot.plinko_board.html">autoplot(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot a Plinko board as a ggplot2 plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_frames.html">filter_frames()</a></code> </p>
-        </td>
-        <td><p>Filter frames in a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="modify_layer.html">modify_layer()</a></code> </p>
-        </td>
-        <td><p>Modify layers/geoms used to display a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board-properties.html">slot_edges()</a></code> <code><a href="plinko_board-properties.html">pins()</a></code> <code><a href="plinko_board-properties.html">paths()</a></code> <code><a href="plinko_board-properties.html">balls()</a></code> <code><a href="plinko_board-properties.html">frames()</a></code> </p>
-        </td>
-        <td><p>Get properties of a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board.html">plinko_board()</a></code> </p>
-        </td>
-        <td><p>Construct a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tween_balls.html">tween_balls()</a></code> </p>
-        </td>
-        <td><p>Tween balls in a Plinko board</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>plot</th>
+      <td><p>A <code><a href='plinko_board.html'>plinko_board()</a></code> object</p></td>
+    </tr>
+    <tr>
+      <th>fps</th>
+      <td><p>The framerate of the animation in frames/sec (default <code>10</code>)</p></td>
+    </tr>
+    <tr>
+      <th>renderer</th>
+      <td><p>The function used to render the generated frames into an
+animation. Gets a vector of paths to images along with the framerate. (default <code><a href='https://gganimate.com/reference/renderers.html'>gifski_renderer()</a></code>)</p></td>
+    </tr>
+    <tr>
+      <th>device</th>
+      <td><p>A device function used to render images. Default <code><a href='https://ragg.r-lib.org/reference/agg_png.html'>ragg::agg_png</a></code>
+is faster and produces higher-quality output than the base <code>png</code> function.</p></td>
+    </tr>
+    <tr>
+      <th>start_pause, end_pause</th>
+      <td><p>Number of times to repeat the first and last
+frame in the animation (default is <code>0</code> for both)</p></td>
+    </tr>
+    <tr>
+      <th>width, height</th>
+      <td><p>One of either <code>width</code> or <code>height</code> must be provided. The
+other dimension is automatically determined based on the aspect ratio of
+the Plinko board.</p></td>
+    </tr>
+    <tr>
+      <th>res</th>
+      <td><p>The resolution of the device. This setting will govern how device
+dimensions given in inches, centimeters, or millimeters will be converted
+to pixels. Further, it will be used to scale text sizes and linewidths</p></td>
+    </tr>
+    <tr>
+      <th>show_dist</th>
+      <td><p>Should an overlay of the binomial distribution for this
+Plinko board be shown?</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments passed on to the device</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

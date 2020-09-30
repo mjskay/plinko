@@ -3,4 +3,34 @@
   <url>
     <loc>http://mjskay.github.io/plinko/index.html</loc>
   </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/add_layers.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/animate.plinko_board.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/autoplot.plinko_board.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/filter_frames.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/modify_layer.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/plinko_board-properties.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/plinko_board.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/reference/tween_balls.html</loc>
+  </url>
+  <url>
+    <loc>http://mjskay.github.io/plinko/articles/presidential_plinko.html</loc>
+  </url>
 </urlset>
