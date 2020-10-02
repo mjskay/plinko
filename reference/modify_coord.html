@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • plinko</title>
+<title>Modify coordinate system used to display a Plinko board — modify_coord • plinko</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,11 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Modify coordinate system used to display a Plinko board — modify_coord" />
+<meta property="og:description" content="Modify the coordinate system used to display a plinko_board().
+plinko_board() objects use a coord_fixed() coordinate system
+with several default parameters based on the properties of the board;
+this function allows you to override those parameters." />
 
 
 
@@ -70,7 +74,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -124,90 +128,37 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Modify coordinate system used to display a Plinko board</h1>
+    
+    <div class="hidden name"><code>modify_coord.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Modify the coordinate system used to display a <code><a href='plinko_board.html'>plinko_board()</a></code>.
+<code><a href='plinko_board.html'>plinko_board()</a></code> objects use a <code>coord_fixed()</code> coordinate system
+with several default parameters based on the properties of the board;
+this function allows you to override those parameters.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>modify_coord</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, mapping <span class='op'>=</span> <span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="add_layers.html">add_layers()</a></code> </p>
-        </td>
-        <td><p>Add ggplot layers to a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="animate.plinko_board.html">animate(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Animate a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="autoplot.plinko_board.html">autoplot(<i>&lt;plinko_board&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot a Plinko board as a ggplot2 plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_frames.html">filter_frames()</a></code> </p>
-        </td>
-        <td><p>Filter frames in a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="modify_coord.html">modify_coord()</a></code> </p>
-        </td>
-        <td><p>Modify coordinate system used to display a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="modify_layer.html">modify_layer()</a></code> </p>
-        </td>
-        <td><p>Modify layers/geoms used to display a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board-properties.html">slot_edges()</a></code> <code><a href="plinko_board-properties.html">pins()</a></code> <code><a href="plinko_board-properties.html">paths()</a></code> <code><a href="plinko_board-properties.html">balls()</a></code> <code><a href="plinko_board-properties.html">frames()</a></code> </p>
-        </td>
-        <td><p>Get properties of a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plinko_board.html">plinko_board()</a></code> </p>
-        </td>
-        <td><p>Construct a Plinko board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tween_balls.html">tween_balls()</a></code> </p>
-        </td>
-        <td><p>Tween balls in a Plinko board</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>board</th>
+      <td><p>A <code><a href='plinko_board.html'>plinko_board()</a></code> object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments to <code>coord_fixed()</code> you wish to change.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
