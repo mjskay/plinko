@@ -81,7 +81,9 @@ animate.plinko_board = function(
     close(pb)
 
     # combine frames into animation
-    renderer(list.files(png_dir, pattern = "*.png", full.names = TRUE), fps)
+    animation = renderer(list.files(png_dir, pattern = "*.png", full.names = TRUE), fps)
+    gganimate:::set_last_animation(animation)
+    animation
   },
   finally = {
     unlink(list.files(png_dir, pattern = "*.png", full.names = TRUE), expand = FALSE)
