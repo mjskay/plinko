@@ -9,7 +9,7 @@
 #' @param ... Arguments to `coord_fixed()` you wish to change.
 #'
 #' @export
-modify_coord = function(board, name, mapping = aes(), ...) {
+modify_coord = function(board, ...) {
   new_args = list(...)
 
   board$ggplot_coord[names(new_args)] = new_args

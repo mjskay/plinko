@@ -4,7 +4,7 @@
 \alias{modify_coord}
 \title{Modify coordinate system used to display a Plinko board}
 \usage{
-modify_coord(board, name, mapping = aes(), ...)
+modify_coord(board, ...)
 }
 \arguments{
 \item{board}{A \code{\link[=plinko_board]{plinko_board()}} object}

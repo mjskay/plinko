@@ -72,16 +72,14 @@ plinko_board = function(
     class = c("plinko_board", "list")
   )
 
-  board = within(board, {
-    # determine derived board parameters
-    row_height = bin_width * row_ratio
-    # ball width is just a bit smaller than the bins
-    ball_width = bin_width * 0.9
-    # slot height needs to accommodate the tallest bin in the distribution plus some leeway
-    slot_height = slot_height %||% ((max(table(bin_values)) + 2) * ball_width)
-    board_height = slot_height + n_bin * row_height
-    total_height = board_height + 11 * bin_width
-  })
+  # determine derived board parameters
+  board$row_height = board$bin_width * board$row_ratio
+  # ball width is just a bit smaller than the bins
+  board$ball_width = board$bin_width * 0.9
+  # slot height needs to accommodate the tallest bin in the distribution plus some leeway
+  board$slot_height = slot_height %||% ((max(table(board$bin_values)) + 2) * board$ball_width)
+  board$board_height = board$slot_height + board$n_bin * board$row_height
+  board$total_height = board$board_height + 11 * board$bin_width
 
   board = create_slots(board)
   board = create_pins(board)
