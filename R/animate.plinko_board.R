@@ -20,6 +20,8 @@ gganimate::animate
 #' @param res The resolution of the device. This setting will govern how device
 #'   dimensions given in inches, centimeters, or millimeters will be converted
 #'   to pixels. Further, it will be used to scale text sizes and linewidths
+#' @param progress Output progress bar and messages? Default is to only output
+#'   during interactive sessions.
 #'
 #' @importFrom grDevices dev.off
 #' @importFrom utils setTxtProgressBar txtProgressBar
@@ -35,6 +37,8 @@ animate.plinko_board = function(
   width = NULL,
   height = 800,
   res = 100,
+
+  progress = interactive(),
 
   show_dist = FALSE, ...
 ) {
@@ -62,8 +66,10 @@ animate.plinko_board = function(
     frame_dfs = c(start_frames, frame_dfs, end_frames)
 
     # render individual frames to png files
-    cat("Rendering frames...\n")
-    pb = txtProgressBar(max = length(frame_dfs), style = 3)
+    if (progress) {
+      cat("Rendering frames...\n")
+      pb = txtProgressBar(max = length(frame_dfs), style = 3)
+    }
     for (i in seq_along(frame_dfs)) {
       frame_df = frame_dfs[[i]]
       outfile = sprintf("%s/%04i.png", png_dir, i)
@@ -76,9 +82,9 @@ animate.plinko_board = function(
           invisible(dev.off())
         })
 
-      setTxtProgressBar(pb, i)
+      if (progress) setTxtProgressBar(pb, i)
     }
-    close(pb)
+    if (progress) close(pb)
 
     # combine frames into animation
     animation = renderer(list.files(png_dir, pattern = "*.png", full.names = TRUE), fps)

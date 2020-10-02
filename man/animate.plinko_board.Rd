@@ -14,6 +14,7 @@
   width = NULL,
   height = 800,
   res = 100,
+  progress = interactive(),
   show_dist = FALSE,
   ...
 )
@@ -39,6 +40,9 @@ the Plinko board.}
 \item{res}{The resolution of the device. This setting will govern how device
 dimensions given in inches, centimeters, or millimeters will be converted
 to pixels. Further, it will be used to scale text sizes and linewidths}
+
+\item{progress}{Output progress bar and messages? Default is to only output
+during interactive sessions.}
 
 \item{show_dist}{Should an overlay of the binomial distribution for this
 Plinko board be shown?}
