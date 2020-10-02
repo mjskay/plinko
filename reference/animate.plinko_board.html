@@ -149,6 +149,7 @@ with a few exceptions/additions noted below.</p>
   width <span class='op'>=</span> <span class='cn'>NULL</span>,
   height <span class='op'>=</span> <span class='fl'>800</span>,
   res <span class='op'>=</span> <span class='fl'>100</span>,
+  progress <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>,
   show_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -190,6 +191,11 @@ the Plinko board.</p></td>
       <td><p>The resolution of the device. This setting will govern how device
 dimensions given in inches, centimeters, or millimeters will be converted
 to pixels. Further, it will be used to scale text sizes and linewidths</p></td>
+    </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>Output progress bar and messages? Default is to only output
+during interactive sessions.</p></td>
     </tr>
     <tr>
       <th>show_dist</th>
