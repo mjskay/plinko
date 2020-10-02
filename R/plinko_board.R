@@ -103,6 +103,9 @@ plinko_board = function(
     )
   )
 
+  # coord_fixed parameters (can be modified with `modify_coord()`)
+  board$ggplot_coord = list(expand = FALSE, clip = "off")
+
   # user-defined layers (can be added to with `+`)
   board$ggplot_user_layers = list()
 
