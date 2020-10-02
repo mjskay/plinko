@@ -148,7 +148,8 @@ drop point to the values are random.</p>
   center <span class='op'>=</span> <span class='cn'>NULL</span>,
   limits <span class='op'>=</span> <span class='cn'>NULL</span>,
   row_ratio <span class='op'>=</span> <span class='fl'>2</span>,
-  frames_till_drop <span class='op'>=</span> <span class='fl'>4</span>
+  frames_till_drop <span class='op'>=</span> <span class='fl'>4</span>,
+  slot_height <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -188,6 +189,12 @@ a single row. Defaults to <code>2</code></p></td>
       <th>frames_till_drop</th>
       <td><p>The number of frames in between each drop of a ball.
 Defaults to <code>4</code>.</p></td>
+    </tr>
+    <tr>
+      <th>slot_height</th>
+      <td><p>Height of the slots. If <code>NULL</code> (the default), determined
+automatically based on the height of the highest bin plus a bit of
+overhead.</p></td>
     </tr>
     </table>
 
