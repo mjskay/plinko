@@ -24,6 +24,9 @@ globalVariables(c(
 #'   a single row. Defaults to `2`
 #' @param frames_till_drop The number of frames in between each drop of a ball.
 #'   Defaults to `4`.
+#' @param slot_height Height of the slots. If `NULL` (the default), determined
+#'   automatically based on the height of the highest bin plus a bit of
+#'   overhead.
 #'
 #' @return An object of class `c("plinko_board", "list")`.
 #'
@@ -37,7 +40,8 @@ plinko_board = function(
   x, n_bin, bin_width,
   n_ball = NULL, center = NULL, limits = NULL,
   row_ratio = 2,
-  frames_till_drop = 4
+  frames_till_drop = 4,
+  slot_height = NULL
 ) {
   # TODO: either bin_width or n_bin should be determined automatically if the
   # other is omitted
@@ -74,7 +78,7 @@ plinko_board = function(
     # ball width is just a bit smaller than the bins
     ball_width = bin_width * 0.9
     # slot height needs to accommodate the tallest bin in the distribution plus some leeway
-    slot_height = (max(table(bin_values)) + 2) * ball_width
+    slot_height = slot_height %||% ((max(table(bin_values)) + 2) * ball_width)
     board_height = slot_height + n_bin * row_height
     total_height = board_height + 11 * bin_width
   })

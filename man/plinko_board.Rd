@@ -12,7 +12,8 @@ plinko_board(
   center = NULL,
   limits = NULL,
   row_ratio = 2,
-  frames_till_drop = 4
+  frames_till_drop = 4,
+  slot_height = NULL
 )
 }
 \arguments{
@@ -34,6 +35,10 @@ a single row. Defaults to \code{2}}
 
 \item{frames_till_drop}{The number of frames in between each drop of a ball.
 Defaults to \code{4}.}
+
+\item{slot_height}{Height of the slots. If \code{NULL} (the default), determined
+automatically based on the height of the highest bin plus a bit of
+overhead.}
 }
 \value{
 An object of class \code{c("plinko_board", "list")}.
