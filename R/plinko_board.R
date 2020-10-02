@@ -55,7 +55,8 @@ plinko_board = function(
   bin_values = round((x - center)/bin_width + n_bin/2)
   # randomize bin order so that when balls are dropped they don't fall into
   # bins in order from left to right
-  bin_values = sample(bin_values, n_ball)
+  # can't use sample(bin_values, n_ball) b/c bin_values may be length 1 (see ?sample)
+  bin_values = bin_values[sample.int(length(bin_values), n_ball)]
 
   board = structure(
     list(
