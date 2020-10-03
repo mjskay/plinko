@@ -162,6 +162,12 @@ frames = function(board) {
     select(frame_id, ball_id, move_id, bin, pin, x, y, width, region, stopped)
 }
 
+#' @describeIn plinko_board-properties Number of frames in the Plinko board.
+#' @export
+n_frames = function(board) {
+  max(board$frames_df$frame_id)
+}
+
 
 
 # helpers -----------------------------------------------------------------
@@ -292,8 +298,8 @@ create_frames = function(board) { within(board, {
   # move for each ball is visible (if any)
 
   # total leading space before last ball is dropped + number of bins it must
-  # traverse + 3 (for the initial and final frames)
-  n_frame = (n_ball - 1) * frames_till_drop + n_bin + 3
+  # traverse + 4 (for the initial and final frames)
+  n_frame = (n_ball - 1) * frames_till_drop + n_bin + 4
 
   frames_df = map_dfr(1:n_frame, function(i) {
     paths_df %>%
