@@ -261,5 +261,5 @@ board %>%
     xlab("Electoral votes for Biden")
   ) %>%
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
-  animate(fps = 30, height = 500)#, end_pause = 90)
+  animate(fps = 30, height = 500, end_pause = 90)
 ```
