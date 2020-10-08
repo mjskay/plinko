@@ -205,7 +205,7 @@ create_pins = function(board) { within(board, {
     y = slot_height + (n_bin - i) * row_height
 
     xs = slot_edges
-    if (i %% 2 == 1) {
+    if (i %% 2 != n_bin %% 2) {
       xs = xs + bin_width/2
     }
 
