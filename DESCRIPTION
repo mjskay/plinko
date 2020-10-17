@@ -22,12 +22,12 @@ Imports:
     ggforce,
     gganimate,
     tweenr,
+    gifski,
     ragg
 Suggests: 
     testthat,
     knitr,
     rmarkdown,
-    gifski,
     ggdist
 Encoding: UTF-8
 LazyData: true
