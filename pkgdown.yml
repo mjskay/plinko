@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   presidential_plinko: presidential_plinko.html
-last_built: 2020-10-08T03:38Z
+last_built: 2020-10-17T01:42Z
 urls:
   reference: http://mjskay.github.io/plinko/reference
   article: http://mjskay.github.io/plinko/articles
