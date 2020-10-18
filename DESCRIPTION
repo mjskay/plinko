@@ -19,6 +19,7 @@ Imports:
     rlang,
     purrr,
     ggplot2,
+    distributional,
     ggforce,
     gganimate,
     tweenr,
@@ -28,7 +29,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    ggdist
+    ggdist,
+    vdiffr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

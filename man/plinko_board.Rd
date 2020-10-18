@@ -2,9 +2,14 @@
 % Please edit documentation in R/plinko_board.R
 \name{plinko_board}
 \alias{plinko_board}
+\alias{plinko_board.numeric}
+\alias{plinko_board.dist_default}
+\alias{plinko_board.distribution}
 \title{Construct a Plinko board}
 \usage{
-plinko_board(
+plinko_board(x, ...)
+
+\method{plinko_board}{numeric}(
   x,
   n_bin,
   bin_width,
@@ -13,11 +18,34 @@ plinko_board(
   limits = NULL,
   row_ratio = 2,
   frames_till_drop = 4,
-  slot_height = NULL
+  slot_height = NULL,
+  ...
+)
+
+\method{plinko_board}{dist_default}(
+  x,
+  n_bin = NULL,
+  bin_width = NULL,
+  n_ball = 50,
+  sampling = c("quantiles", "random"),
+  ...
+)
+
+\method{plinko_board}{distribution}(
+  x,
+  n_bin = NULL,
+  bin_width = NULL,
+  n_ball = 50,
+  sampling = c("quantiles", "random"),
+  ...
 )
 }
 \arguments{
 \item{x}{The final values that the Plinko board will "sediment" to.}
+
+\item{...}{Arguments passed on to lower-level implementations of \code{plinko_board()}.
+Currently all implementations call down to \code{plinko_board.numeric()}, so \code{...}
+may include arguments to that function not otherwise defined.}
 
 \item{n_bin}{The number of bins used in the Binomial approximation of \code{x}.}
 
@@ -39,6 +67,10 @@ Defaults to \code{4}.}
 \item{slot_height}{Height of the slots. If \code{NULL} (the default), determined
 automatically based on the height of the highest bin plus a bit of
 overhead.}
+
+\item{sampling}{For \code{plinko_board.distribution}, how to "sample" balls from the
+distribution. Use \code{"quantiles"}, uses quantiles of the distribution; if
+\code{"random"}, samples balls randomly.}
 }
 \value{
 An object of class \code{c("plinko_board", "list")}.

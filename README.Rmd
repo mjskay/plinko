@@ -25,4 +25,20 @@ remotes::install_github("mjskay/plinko")
 
 ## Example
 
-TBD
+This example requires the following libraries:
+
+```{r setup}
+library(plinko)
+library(ggplot2)
+library(distributional)
+```
+
+You can construct plinko boards using distributions from the 
+[distributional](https://pkg.mitchelloharawild.com/distributional/) package:
+
+```{r}
+d = dist_normal(1,2)
+
+```
+
+

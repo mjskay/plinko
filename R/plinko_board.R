@@ -27,6 +27,12 @@ globalVariables(c(
 #' @param slot_height Height of the slots. If `NULL` (the default), determined
 #'   automatically based on the height of the highest bin plus a bit of
 #'   overhead.
+#' @param sampling For `plinko_board.distribution`, how to "sample" balls from the
+#'   distribution. Use `"quantiles"`, uses quantiles of the distribution; if
+#'   `"random"`, samples balls randomly.
+#' @param ... Arguments passed on to lower-level implementations of `plinko_board()`.
+#'   Currently all implementations call down to `plinko_board.numeric()`, so `...`
+#'   may include arguments to that function not otherwise defined.
 #'
 #' @return An object of class `c("plinko_board", "list")`.
 #'
@@ -36,12 +42,19 @@ globalVariables(c(
 #' @importFrom tidyr unnest
 #' @importFrom ggforce geom_circle
 #' @export
-plinko_board = function(
+plinko_board = function(x, ...) {
+  UseMethod("plinko_board")
+}
+
+#' @rdname plinko_board
+#' @export
+plinko_board.numeric = function(
   x, n_bin, bin_width,
   n_ball = NULL, center = NULL, limits = NULL,
   row_ratio = 2,
   frames_till_drop = 4,
-  slot_height = NULL
+  slot_height = NULL,
+  ...
 ) {
   # TODO: either bin_width or n_bin should be determined automatically if the
   # other is omitted
@@ -115,7 +128,52 @@ plinko_board = function(
   board
 }
 
+#' @rdname plinko_board
+#' @importFrom distributional variance
+#' @export
+plinko_board.dist_default = function(
+  x, n_bin = NULL, bin_width = NULL,
+  n_ball = 50,
+  sampling = c("quantiles", "random"),
+  ...
+) {
+  sampling = match.arg(sampling)
+  mean_x = mean(x)
+  var_x = variance(x)
 
+  if (!is.null(n_bin)) {
+    if (!is.null(bin_width)) {
+      stop(
+        "To construct a plinko board from a distributional object, you must\n",
+        "provide either `n_bin` or `bin_width`, but not both."
+      )
+    }
+
+    # determine distribution parameters based on n_bin
+    bin_width = sqrt(4 * var_x / n_bin)
+  } else {
+    if (is.null(bin_width)) {
+      stop(
+        "To construct a plinko board from a distributional object, you must\n",
+        "provide either `n_bin` or `bin_width`."
+      )
+    }
+
+    # determine distribution parameters based on bin_width
+    n_bin = round(4 * var_x / bin_width^2)
+  }
+
+  x_samples = switch(sampling,
+    quantiles = sapply(ppoints(n_ball), function(p) quantile(x, p)),
+    random = unlist(generate(x, n_ball))
+  )
+
+  plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = mean_x, ...)
+}
+
+#' @rdname plinko_board
+#' @export
+plinko_board.distribution = plinko_board.dist_default
 
 # accessors ---------------------------------------------------------------
 
@@ -293,27 +351,23 @@ create_paths = function(board) {
   })
 }
 
-create_frames = function(board) { within(board, {
+create_frames = function(board) {
   # we construct a dataframe of animation frames by determining on each frame which
   # move for each ball is visible (if any)
 
   # total leading space before last ball is dropped + number of bins it must
   # traverse + 4 (for the initial and final frames)
-  n_frame = (n_ball - 1) * frames_till_drop + n_bin + 4
+  board$n_frame = (board$n_ball - 1) * board$frames_till_drop + board$n_bin + 4
 
-  frames_df = map_dfr(1:n_frame, function(i) {
-    paths_df %>%
-      mutate(
-        frame_id = i,
-        visible_move_id = i - (ball_id - 1) * frames_till_drop,
-        # has the ball stopped moving?
-        stopped = move_id == max(move_id) & move_id < visible_move_id
-      ) %>%
-      # keep only the moves we are showing in this frame
-      filter(
-        # ball is falling OR has reached the bottom and is stopped
-        (move_id == visible_move_id) | stopped
-      ) %>%
-      ungroup()
+  paths_df = ungroup(board$paths_df)
+  max_move_id = max(paths_df$move_id)
+
+  board$frames_df = map_dfr(1:board$n_frame, function(i) {
+    paths_df$frame_id = i
+    paths_df$visible_move_id = i - (paths_df$ball_id - 1) * board$frames_till_drop
+    paths_df$stopped = (paths_df$move_id == max_move_id) & paths_df$move_id < paths_df$visible_move_id
+    paths_df[(paths_df$move_id == paths_df$visible_move_id) | paths_df$stopped,]
   })
-})}
+
+  board
+}
