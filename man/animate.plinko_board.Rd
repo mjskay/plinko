@@ -15,7 +15,9 @@
   height = 800,
   res = 100,
   progress = interactive(),
+  show_paths = FALSE,
   show_dist = FALSE,
+  show_target_dist = FALSE,
   ...
 )
 }
@@ -44,8 +46,15 @@ to pixels. Further, it will be used to scale text sizes and linewidths}
 \item{progress}{Output progress bar and messages? Default is to only output
 during interactive sessions.}
 
+\item{show_paths}{Should ball paths be shown?}
+
 \item{show_dist}{Should an overlay of the binomial distribution for this
 Plinko board be shown?}
+
+\item{show_target_dist}{For \code{plinko_board()} objects constructed from a
+\href{https://pkg.mitchelloharawild.com/distributional/}{distributional} object
+(like \code{\link[=dist_normal]{dist_normal()}}, etc), should an overlay of the target distribution
+for this Plinko board be shown?}
 
 \item{...}{Arguments passed on to the device}
 }

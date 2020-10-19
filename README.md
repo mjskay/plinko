@@ -1,5 +1,5 @@
 
-# plinko: Animated Plinko boards
+# plinko: Animated Plinko Boards
 
 <!-- badges: start -->
 
@@ -32,15 +32,18 @@ This example requires the following libraries:
 library(plinko)
 library(ggplot2)
 library(distributional)
-```
+library(ggdist)
 
-    ## Warning: package 'distributional' was built under R version 4.0.3
+theme_set(theme_ggdist())
+```
 
 You can construct plinko boards using distributions from the
 [distributional](https://pkg.mitchelloharawild.com/distributional/)
 package:
 
 ``` r
+set.seed(1234)  # for reproducibility
+
 dist = dist_normal(1,2)
 board = plinko_board(dist, n_bin = 10)
 autoplot(board)

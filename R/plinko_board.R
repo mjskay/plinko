@@ -131,6 +131,7 @@ plinko_board.numeric = function(
 #' @rdname plinko_board
 #' @importFrom distributional variance generate
 #' @importFrom stats quantile ppoints
+#' @importFrom ggdist stat_dist_slab
 #' @export
 plinko_board.distribution = function(
   x, n_bin = NULL, bin_width = NULL,
@@ -169,7 +170,19 @@ plinko_board.distribution = function(
     random = unlist(generate(x, n_ball))
   )
 
-  plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = mean_x, ...)
+  board = plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = mean_x, ...)
+
+  # add additional layer showing the target distribution (only for boards built with distributional)
+  board$dist = dist
+  board$ggplot_layers$target_dist = list(
+    geom = quote(stat_dist_slab), data = quote(tibble(dist = board$dist)),
+    mapping = aes(dist = dist, y = 0, thickness = stat(f) * board$n_ball * board$ball_width * board$bin_width),
+    colour = "#d95f02", fill = NA, alpha = 0.75, normalize = "none", scale = 1, size = 1
+  )
+
+  class(board) = c("plinko_board_dist", class(board))
+
+  board
 }
 
 

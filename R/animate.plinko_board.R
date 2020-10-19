@@ -40,7 +40,10 @@ animate.plinko_board = function(
 
   progress = interactive(),
 
-  show_dist = FALSE, ...
+  show_paths = FALSE,
+  show_dist = FALSE,
+  show_target_dist = FALSE,
+  ...
 ) {
   board = plot
 
@@ -76,7 +79,7 @@ animate.plinko_board = function(
       device(outfile, width = width, height = height, res = res, ...)
 
       tryCatch({
-        print(.plot_plinko_board(board, frame_df, show_dist = show_dist, show_paths = FALSE))
+        print(.plot_plinko_board(board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist))
       },
         finally = {
           invisible(dev.off())

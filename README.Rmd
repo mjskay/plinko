@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# plinko: Animated Plinko boards
+# plinko: Animated Plinko Boards
 
 <!-- badges: start -->
 [![R build status](https://github.com/mjskay/plinko/workflows/R-CMD-check/badge.svg)](https://github.com/mjskay/plinko/actions)
@@ -19,7 +19,7 @@ video.
 
 You can install plinko with:
 
-``` r
+```r
 # install.packages("remotes")
 remotes::install_github("mjskay/plinko")
 ```
@@ -28,18 +28,23 @@ remotes::install_github("mjskay/plinko")
 
 This example requires the following libraries:
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(plinko)
 library(ggplot2)
 library(distributional)
+library(ggdist)
+
+theme_set(theme_ggdist())
 ```
 
 You can construct plinko boards using distributions from the 
 [distributional](https://pkg.mitchelloharawild.com/distributional/) package:
 
 ```{r}
+set.seed(1234)  # for reproducibility
+
 dist = dist_normal(1,2)
-board = plinko_board(dist, n_bin = 10)
+board = plinko_board(dist, n_bin = 10, n_ball = 50)
 autoplot(board)
 ```
 

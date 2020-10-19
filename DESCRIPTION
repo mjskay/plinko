@@ -20,6 +20,7 @@ Imports:
     purrr,
     ggplot2,
     distributional,
+    ggdist,
     ggforce,
     gganimate,
     tweenr,
@@ -29,7 +30,6 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    ggdist,
     clipr,
     vdiffr
 Encoding: UTF-8

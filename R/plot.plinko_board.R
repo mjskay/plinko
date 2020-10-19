@@ -9,11 +9,15 @@
 #' @param show_paths Should ball paths be shown?
 #' @param show_dist Should an overlay of the binomial distribution for this
 #'   Plinko board be shown?
+#' @param show_target_dist For `plinko_board()` objects constructed from a
+#'   [distributional](https://pkg.mitchelloharawild.com/distributional/) object
+#'   (like [dist_normal()], etc), should an overlay of the target distribution
+#'   for this Plinko board be shown?
 #'
 #' @import ggplot2
 #' @importFrom rlang %||%
 #' @export
-autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, show_dist = TRUE) {
+autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, show_dist = TRUE, show_target_dist = TRUE) {
   if (is.null(frame)) {
     balls_df = balls(object)
   } else {
@@ -21,10 +25,14 @@ autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, s
       filter(frame_id == frame)
   }
 
-  .plot_plinko_board(object, balls_df = balls_df, show_paths = show_paths, show_dist = show_dist)
+  .plot_plinko_board(object, balls_df = balls_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist, ...)
 }
 
-.plot_plinko_board = function(board, balls_df, show_paths = show_paths, show_dist = show_dist) {
+.plot_plinko_board = function(board, balls_df, ...) {
+  UseMethod(".plot_plinko_board")
+}
+
+.plot_plinko_board.plinko_board = function(board, balls_df, show_paths = TRUE, show_dist = TRUE, ...) {
   dist_df = with(board, {
     dist_x = seq(-n_bin/2, n_bin/2) * bin_width + center
     dist_x = dist_x[min(slot_edges) < dist_x & dist_x < max(slot_edges)]
@@ -54,4 +62,10 @@ autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, s
       axis.line.x = element_line(color = "gray75", size = 1)
     ) +
     board$ggplot_user_layers
+}
+
+.plot_plinko_board.plinko_board_dist = function(board, balls_df, show_target_dist = TRUE, ...) {
+  if (!show_target_dist) board$ggplot_layers[["target_dist"]] = NULL
+
+  NextMethod()
 }
