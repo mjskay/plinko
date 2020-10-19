@@ -6,6 +6,7 @@ output: github_document
 
 <!-- badges: start -->
 [![R build status](https://github.com/mjskay/plinko/workflows/R-CMD-check/badge.svg)](https://github.com/mjskay/plinko/actions)
+[![Coverage status](https://codecov.io/gh/mjskay/plinko/branch/master/graph/badge.svg)](https://codecov.io/github/mjskay/plinko?branch=master)
 <!-- badges: end -->
 
 `plinko` is an R package for creating animated Plinko boards (as known as Galton 
@@ -37,8 +38,9 @@ You can construct plinko boards using distributions from the
 [distributional](https://pkg.mitchelloharawild.com/distributional/) package:
 
 ```{r}
-d = dist_normal(1,2)
-
+dist = dist_normal(1,2)
+board = plinko_board(dist, n_bin = 10)
+autoplot(board)
 ```
 
 
