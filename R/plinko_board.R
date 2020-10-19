@@ -129,7 +129,8 @@ plinko_board.numeric = function(
 }
 
 #' @rdname plinko_board
-#' @importFrom distributional variance
+#' @importFrom distributional variance generate
+#' @importFrom stats quantile ppoints
 #' @export
 plinko_board.dist_default = function(
   x, n_bin = NULL, bin_width = NULL,
