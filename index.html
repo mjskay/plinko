@@ -115,15 +115,15 @@
 <span class="va">dist</span> <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html">dist_normal</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="va">board</span> <span class="op">=</span> <span class="fu"><a href="reference/plinko_board.html">plinko_board</a></span><span class="op">(</span><span class="va">dist</span>, n_bin <span class="op">=</span> <span class="fl">5</span>, n_ball <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">board</span><span class="op">)</span></pre></div>
-<p><img src="README_files/figure-gfm/board_plot-1.png"><!-- --></p>
+<p><img src="reference/figures/README/board_plot-1.png"><!-- --></p>
 <p>The plot shows the pins and slots in the board, as well as the target distribution (in orange), the binomial distribution used to approximate it (in black), and 20 quantiles from the target distribution (in blue). By default, quantiles of the target distribution (rather than random samples) are used in order to ensure the final distribution of balls is representative of the target distribution. If you want a random sample of balls instead, you can pass <code>sampling = "random"</code> to <code><a href="reference/plinko_board.html">plinko_board()</a></code>.</p>
 <p>Once you are happy with the appearance of your plinko board, you can animate it using <code><a href="https://gganimate.com/reference/animate.html">animate()</a></code>, which by default will omit the annotations of the paths and distributions (though these can be added back in with <code>show_paths = TRUE</code>, <code>show_dist = TRUE</code>, or <code>show_target_dist = TRUE</code>). Here we’ll also use <code><a href="reference/tween_balls.html">tween_balls()</a></code> to add some tweening frames so the balls drop more smoothly, and set a <code>height</code> on the animation (given a desired height, <code><a href="reference/animate.plinko_board.html">animate.plinko_board()</a></code> will attempt to find a reasonable <code>width</code> automatically):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/tween_balls.html">tween_balls</a></span><span class="op">(</span>frame_mult <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">450</span>, fps <span class="op">=</span> <span class="fl">30</span>, end_pause <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">30</span><span class="op">)</span></pre></div>
-<p><img src="README_files/figure-gfm/board_animation-1.gif"><!-- --></p>
-<p>For a more comprehnsive example of how to customize your animation (including customizing aesthetics, geoms, and annotations), see <code>vignette("presidential-plinko")</code>.</p>
+<p><img src="reference/figures/README/board_animation-1.gif"><!-- --></p>
+<p>For a more comprehnsive example of how to customize your animation (including customizing aesthetics, geoms, and annotations), see <code><a href="articles/presidential_plinko.html">vignette("presidential_plinko")</a></code>.</p>
 </div>
 </div>
   </div>
