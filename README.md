@@ -72,7 +72,6 @@ reasonable `width` automatically):
 
 ``` r
 board %>%
-  # filter_frames(ball_id == 1, !stopped) %>%
   tween_balls(frame_mult = 4) %>%
   animate(height = 450, fps = 30, end_pause = 2 * 30)
 ```
