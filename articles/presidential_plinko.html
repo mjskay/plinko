@@ -105,16 +105,7 @@ img {
 <p>The following packages are required for this example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plinko</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></pre></div>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mjskay.github.io/ggdist">ggdist</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggforce.data-imaginist.com">ggforce</a></span><span class="op">)</span>
@@ -125,7 +116,7 @@ img {
 <h2 class="hasAnchor">
 <a href="#desired-target-sample" class="anchor"></a>Desired target sample</h2>
 <p>Say we’ve taken 50 quantiles from a predictive distribution for the number of electoral votes Biden will receive in the 2020 US Presidential election:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="co"># this 20 quantiles from the Economist's forecast as of Sept 29, 2020.</span>
 <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">213</span>, <span class="fl">243</span>, <span class="fl">266</span>, <span class="fl">279</span>, <span class="fl">290</span>, <span class="fl">304</span>, <span class="fl">310</span>, <span class="fl">319</span>, <span class="fl">323</span>, <span class="fl">333</span>, <span class="fl">339</span>, <span class="fl">345</span>,  <span class="fl">352</span>, <span class="fl">357</span>, <span class="fl">363</span>, <span class="fl">372</span>, <span class="fl">374</span>, <span class="fl">385.125</span>, <span class="fl">399</span>, <span class="fl">415</span><span class="op">)</span>
 
@@ -141,11 +132,11 @@ img {
 <h2 class="hasAnchor">
 <a href="#constructing-the-board" class="anchor"></a>Constructing the board</h2>
 <p>First, to determine the board dimensions, we need to decide on the number of draws we will take and the number of pins in one row of the board (equivalently, the size of the Binomial distribution we are simulating with the board):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">n_bin</span> <span class="op">=</span> <span class="fl">6</span>
 <span class="va">bin_width</span> <span class="op">=</span> <span class="fl">41</span></pre></div>
 <p>Then we can construct the Plinko board:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span>
 
 <span class="va">board</span> <span class="op">=</span> <span class="fu"><a href="../reference/plinko_board.html">plinko_board</a></span><span class="op">(</span>
@@ -164,17 +155,17 @@ img {
 <a href="#using-autoplot" class="anchor"></a>Using <code>autoplot()</code>
 </h3>
 <p>The Plinko board will automatically find random paths the balls could have taken to end up in their final locations. We can see these paths by plotting the board with the <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> function, which returns a <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> object:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-4-1.png" width="201.6"></p>
 <p>By default the plot overlays the Binomial distribution implied by the Plinko board so you can judge the quality of the approximation. We can also turn this off:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>show_dist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-5-1.png" width="201.6"></p>
 <p>You can also see the board without paths by passing <code>show_paths = FALSE</code>, and you can plot specific frames of the animation by passing the <code>frame</code> parameter:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">board</span>, show_paths <span class="op">=</span> <span class="cn">FALSE</span>, frame <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></pre></div>
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-6-1.png" width="201.6"></p>
 </div>
@@ -182,7 +173,7 @@ img {
 <h3 class="hasAnchor">
 <a href="#plotting-manually" class="anchor"></a>Plotting manually</h3>
 <p>We could also create a plot like the ones above manually by using the <code><a href="../reference/plinko_board-properties.html">slot_edges()</a></code>, <code><a href="../reference/plinko_board-properties.html">pins()</a></code>, <code><a href="../reference/plinko_board-properties.html">paths()</a></code>, and <code><a href="../reference/plinko_board-properties.html">balls()</a></code> unctions, which return data frames containing the locations of all of the elements of the board:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">geom_segment</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="fl">0</span>, xend <span class="op">=</span> <span class="va">x</span>, yend <span class="op">=</span> <span class="va">height</span><span class="op">)</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/plinko_board-properties.html">slot_edges</a></span><span class="op">(</span><span class="va">board</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"gray75"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/plinko_board-properties.html">pins</a></span><span class="op">(</span><span class="va">board</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">19</span>, color <span class="op">=</span> <span class="st">"#e41a1c"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
@@ -204,7 +195,7 @@ img {
 <a href="#customizing-frames" class="anchor"></a>Customizing frames</h2>
 <p>You can customize the existing layers in the <code>ggplot</code> objects generated for each frame using the <code><a href="../reference/modify_layer.html">modify_layer()</a></code> function, which takes a layer name followed by parameters you would normally pass to a ggplot layer/geom. Aesthetic mappings you provide are merged with the existing aesthetics in the layer, and new arguments you provide override existing ones.</p>
 <p>For example, say you want to make the ball fill color depend on its x position, and change the outline color to be black:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/modify_layer.html">modify_layer</a></span><span class="op">(</span><span class="st">"balls"</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">x</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>show_dist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
@@ -218,7 +209,7 @@ img {
 <li>“dist”: A <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step()</a></code> that draws the reference binomial distribution</li>
 </ul>
 <p>When plotting a single frame, you can also add additional ggplot objects after the call to <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code>, as with any ggplot object:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span>show_dist <span class="op">=</span> <span class="cn">FALSE</span>, show_paths <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">269</span>, color <span class="op">=</span> <span class="st">"black"</span>, alpha <span class="op">=</span> <span class="fl">0.15</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
@@ -226,7 +217,7 @@ img {
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-8-1.png" width="201.6"></p>
 <p>However, layers added in this way are not saved into the <code>board</code> object, and so <strong>will not be displayed when the board is animated</strong>.</p>
 <p>To add ggplot objects to the <code>board</code> object so that they are displayed when the board is animated, you must use the <code><a href="../reference/add_layers.html">add_layers()</a></code> function <em>before</em> calling <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> or <code><a href="https://gganimate.com/reference/animate.html">animate()</a></code>. Here is the same example using <code><a href="../reference/add_layers.html">add_layers()</a></code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/add_layers.html">add_layers</a></span><span class="op">(</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">269</span>, color <span class="op">=</span> <span class="st">"black"</span>, alpha <span class="op">=</span> <span class="fl">0.15</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
@@ -240,19 +231,19 @@ img {
 <h2 class="hasAnchor">
 <a href="#animating-the-board" class="anchor"></a>Animating the board</h2>
 <p>By default, no tweening is done between balls on the board:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="co"># width is determined automatically based on height</span>
   <span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span>fps <span class="op">=</span> <span class="fl">7.5</span>, height <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></pre></div>
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-10-1.gif"><!-- --></p>
 <p>Most likely you will want some tweening between ball states. I find that using 4 times the base number of frames with a <code>"bounce-out"</code> easing function (the default) makes for a smooth animation that feels more physically accurate. You can add tweening using the <code><a href="../reference/tween_balls.html">tween_balls()</a></code> function. You’ll also want to increase the <code>fps</code> to account for the additional frames, and we will add a 3-second (90-frame) pause at the end of the animation using <code>end_pause</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/tween_balls.html">tween_balls</a></span><span class="op">(</span>frame_mult <span class="op">=</span> <span class="fl">4</span>, ease <span class="op">=</span> <span class="st">"bounce-out"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span>fps <span class="op">=</span> <span class="fl">30</span>, height <span class="op">=</span> <span class="fl">500</span>, end_pause <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></pre></div>
 <p><img src="presidential_plinko_files/figure-html/unnamed-chunk-11-1.gif"><!-- --></p>
 <p>For testing purposes (e.g. faster rendering), it can also be useful to filter the frames in the final animation. You can do this using <code><a href="../reference/filter_frames.html">filter_frames()</a></code>, which takes filtering conditions in the same format as <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> and applies them to the data frame returned by <code><a href="../reference/plinko_board-properties.html">frames(board)</a></code>. The <code>"ball_id"</code> column can be combined with the <code>"stopped"</code> column (which is <code>TRUE</code> after the ball hits the bottom of a slot and stops moving) to show just one ball dropping, for example:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
+<div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/filter_frames.html">filter_frames</a></span><span class="op">(</span><span class="va">ball_id</span> <span class="op">==</span> <span class="fl">1</span>, <span class="op">!</span><span class="va">stopped</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/tween_balls.html">tween_balls</a></span><span class="op">(</span>frame_mult <span class="op">=</span> <span class="fl">4</span>, ease <span class="op">=</span> <span class="st">"bounce-out"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -263,7 +254,7 @@ img {
 <h2 class="hasAnchor">
 <a href="#a-full-annotated-board" class="anchor"></a>A full, annotated board</h2>
 <p>Finally, we can combine everything together to adjust the existing geometries with <code><a href="../reference/modify_layer.html">modify_layer()</a></code>, add annotations with <code><a href="../reference/add_layers.html">add_layers()</a></code>, add tweening with <code><a href="../reference/tween_balls.html">tween_balls()</a></code>, then animate:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
+<div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="va">Biden_color</span> <span class="op">=</span> <span class="st">"#0571b0"</span>
 <span class="va">Trump_color</span> <span class="op">=</span> <span class="st">"#ca0020"</span>
 
