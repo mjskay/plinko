@@ -150,7 +150,9 @@ with a few exceptions/additions noted below.</p>
   height <span class='op'>=</span> <span class='fl'>800</span>,
   res <span class='op'>=</span> <span class='fl'>100</span>,
   progress <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>,
+  show_paths <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show_target_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -198,9 +200,20 @@ to pixels. Further, it will be used to scale text sizes and linewidths</p></td>
 during interactive sessions.</p></td>
     </tr>
     <tr>
+      <th>show_paths</th>
+      <td><p>Should ball paths be shown?</p></td>
+    </tr>
+    <tr>
       <th>show_dist</th>
       <td><p>Should an overlay of the binomial distribution for this
 Plinko board be shown?</p></td>
+    </tr>
+    <tr>
+      <th>show_target_dist</th>
+      <td><p>For <code><a href='plinko_board.html'>plinko_board()</a></code> objects constructed from a
+<a href='https://pkg.mitchelloharawild.com/distributional/'>distributional</a> object
+(like <code><a href='https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html'>dist_normal()</a></code>, etc), should an overlay of the target distribution
+for this Plinko board be shown?</p></td>
     </tr>
     <tr>
       <th>...</th>

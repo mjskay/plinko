@@ -137,7 +137,14 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for plinko_board</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span>, frame <span class='op'>=</span> <span class='cn'>NULL</span>, show_paths <span class='op'>=</span> <span class='cn'>TRUE</span>, show_dist <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>...</span>,
+  frame <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show_paths <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show_dist <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show_target_dist <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,6 +170,13 @@ the final frame (i.e. all the balls in their final positions).</p></td>
       <th>show_dist</th>
       <td><p>Should an overlay of the binomial distribution for this
 Plinko board be shown?</p></td>
+    </tr>
+    <tr>
+      <th>show_target_dist</th>
+      <td><p>For <code><a href='plinko_board.html'>plinko_board()</a></code> objects constructed from a
+<a href='https://pkg.mitchelloharawild.com/distributional/'>distributional</a> object
+(like <code><a href='https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html'>dist_normal()</a></code>, etc), should an overlay of the target distribution
+for this Plinko board be shown?</p></td>
     </tr>
     </table>
 
