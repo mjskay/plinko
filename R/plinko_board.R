@@ -4,7 +4,7 @@ globalVariables(c(
   "frame_id", "frames_till_drop", "height", "move", "move_id", "n_balanced_move",
   "n_ball", "n_bin", "n_fixed_move", "n_move", "paths_df", "pin", "region",
   "row_height", "slot_height", "stopped", "visible_move_id", "width", "x",
-  "x_max", "x_min", "y"
+  "x_max", "x_min", "y", "dist", "f"
 ))
 
 #' Construct a Plinko board
