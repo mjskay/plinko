@@ -2,6 +2,17 @@
 output: github_document
 ---
 
+```{r chunk_options, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/README/"
+)
+if (capabilities("cairo")) {
+  knitr::opts_chunk$set(
+    dev.args = list(png = list(type = "cairo"))
+  )
+}
+```
+
 # plinko: Animated Plinko Boards
 
 <!-- badges: start -->
@@ -72,4 +83,4 @@ board %>%
 ```
 
 For a more comprehnsive example of how to customize your animation (including
-customizing aesthetics, geoms, and annotations), see `vignette("presidential-plinko")`.
+customizing aesthetics, geoms, and annotations), see `vignette("presidential_plinko")`.

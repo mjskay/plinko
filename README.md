@@ -50,7 +50,7 @@ board = plinko_board(dist, n_bin = 5, n_ball = 20)
 autoplot(board)
 ```
 
-![](README_files/figure-gfm/board_plot-1.png)<!-- -->
+![](man/figures/README/board_plot-1.png)<!-- -->
 
 The plot shows the pins and slots in the board, as well as the target
 distribution (in orange), the binomial distribution used to approximate
@@ -76,8 +76,8 @@ board %>%
   animate(height = 450, fps = 30, end_pause = 2 * 30)
 ```
 
-![](README_files/figure-gfm/board_animation-1.gif)<!-- -->
+![](man/figures/README/board_animation-1.gif)<!-- -->
 
 For a more comprehnsive example of how to customize your animation
 (including customizing aesthetics, geoms, and annotations), see
-`vignette("presidential-plinko")`.
+`vignette("presidential_plinko")`.
