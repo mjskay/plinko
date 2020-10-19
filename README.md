@@ -66,12 +66,15 @@ animate it using `animate()`, which by default will omit the annotations
 of the paths and distributions (though these can be added back in with
 `show_paths = TRUE`, `show_dist = TRUE`, or `show_target_dist = TRUE`).
 Here we’ll also use `tween_balls()` to add some tweening frames so the
-balls drop more smoothly:
+balls drop more smoothly, and set a `height` on the animation (given a
+desired height, `animate.plinko_board()` will attempt to find a
+reasonable `width` automatically):
 
 ``` r
 board %>%
+  # filter_frames(ball_id == 1, !stopped) %>%
   tween_balls(frame_mult = 4) %>%
-  animate(fps = 30, end_pause = 2 * 30)
+  animate(height = 450, fps = 30, end_pause = 2 * 30)
 ```
 
 ![](README_files/figure-gfm/board_animation-1.gif)<!-- -->

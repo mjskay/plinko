@@ -48,11 +48,13 @@ animate.plinko_board = function(
   board = plot
 
   # determine image dimensions
+  x_min = min(board$x_min, board$slot_edges)
+  x_max = max(board$x_max, board$slot_edges)
   if (is.null(width)) {
-    width = with(board, (x_max - x_min)/total_height * height)
+    width = (x_max - x_min)/board$total_height * height
   }
   if (is.null(height)) {
-    height = with(board, total_height/(x_max - x_min) * width)
+    height = board$total_height/(x_max - x_min) * width
   }
 
   # create temporary directory to render frames into

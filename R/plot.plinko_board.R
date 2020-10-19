@@ -54,7 +54,7 @@ autoplot.plinko_board = function(object, ..., frame = NULL, show_paths = TRUE, s
   ggplot() +
     layers +
     do.call(coord_fixed, board$ggplot_coord) +
-    ylab("") +
+    ylab(NULL) +
     scale_y_continuous(breaks = NULL) +
     expand_limits(y = board$total_height) +
     theme(
