@@ -71,6 +71,6 @@ test_that("frames() works", {
   expect_equal(frames(board), ref)
 })
 
-test_that("n_frames() works", {
-  expect_equal(n_frames(board), 27)
+test_that("n_frame() works", {
+  expect_equal(n_frame(board), 27)
 })

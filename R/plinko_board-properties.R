@@ -43,6 +43,6 @@ frames = function(board) {
 
 #' @describeIn plinko_board-properties Number of frames in the Plinko board.
 #' @export
-n_frames = function(board) {
+n_frame = function(board) {
   max(board$frames_df$frame_id)
 }

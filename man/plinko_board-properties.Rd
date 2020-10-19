@@ -7,7 +7,7 @@
 \alias{paths}
 \alias{balls}
 \alias{frames}
-\alias{n_frames}
+\alias{n_frame}
 \title{Get properties of a Plinko board}
 \usage{
 slot_edges(board)
@@ -20,7 +20,7 @@ balls(board)
 
 frames(board)
 
-n_frames(board)
+n_frame(board)
 }
 \arguments{
 \item{board}{A \code{\link[=plinko_board]{plinko_board()}}}
@@ -43,6 +43,6 @@ Functions to get different properties of a \code{\link[=plinko_board]{plinko_boa
 
 \item \code{frames}: Frames in the animation giving ball locations
 
-\item \code{n_frames}: Number of frames in the Plinko board.
+\item \code{n_frame}: Number of frames in the Plinko board.
 }}
 
