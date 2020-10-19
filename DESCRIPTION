@@ -1,5 +1,5 @@
 Package: plinko
-Title: Animated Plinko boards
+Title: Animated Plinko Boards
 Version: 0.1.0.9000
 Authors@R: 
     person(given = "Matthew",
