@@ -36,7 +36,7 @@ repository for more information.
 
 The following packages are required for this example:
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(plinko)
 library(dplyr)
 library(ggplot2)
