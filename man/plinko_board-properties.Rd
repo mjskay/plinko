@@ -29,7 +29,7 @@ n_frames(board)
 A data frame containing the requested properties of the Plinko board.
 }
 \description{
-Get slot edges, pins, paths, balls, or frames from a Plinko board.
+Functions to get different properties of a \code{\link[=plinko_board]{plinko_board()}}.
 }
 \section{Functions}{
 \itemize{

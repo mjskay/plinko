@@ -3,7 +3,6 @@
 \name{plinko_board}
 \alias{plinko_board}
 \alias{plinko_board.numeric}
-\alias{plinko_board.dist_default}
 \alias{plinko_board.distribution}
 \title{Construct a Plinko board}
 \usage{
@@ -19,15 +18,6 @@ plinko_board(x, ...)
   row_ratio = 2,
   frames_till_drop = 4,
   slot_height = NULL,
-  ...
-)
-
-\method{plinko_board}{dist_default}(
-  x,
-  n_bin = NULL,
-  bin_width = NULL,
-  n_ball = 50,
-  sampling = c("quantiles", "random"),
   ...
 )
 

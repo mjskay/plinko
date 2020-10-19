@@ -2,7 +2,6 @@
 
 S3method(animate,plinko_board)
 S3method(autoplot,plinko_board)
-S3method(plinko_board,dist_default)
 S3method(plinko_board,distribution)
 S3method(plinko_board,numeric)
 S3method(print,plinko_board)

@@ -1,6 +1,6 @@
 #' Get properties of a Plinko board
 #'
-#' Get slot edges, pins, paths, balls, or frames from a Plinko board.
+#' Functions to get different properties of a [plinko_board()].
 #'
 #' @name plinko_board-properties
 #' @param board A [plinko_board()]
