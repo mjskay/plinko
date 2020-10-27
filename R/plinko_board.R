@@ -273,7 +273,15 @@ create_paths = function(board) {
         move = list(c(
           0,
           sample(
-            c(rep(sign(n_fixed_move), abs(n_fixed_move)), rep(-1, n_balanced_move/2), rep(1, n_balanced_move/2)),
+            if(n_balanced_move >= 0) {
+              # we have enough space to get the the desired position (should be most of the time)
+              c(rep(sign(n_fixed_move), abs(n_fixed_move)), rep(-1, n_balanced_move/2), rep(1, n_balanced_move/2))
+            } else {
+              # else we have to add some "skips" where the ball moves extra spaces
+              # in this case n_balanced_move is negative, and is the number of moves we
+              # have to "make up" by adding skips
+              rep(sign(n_fixed_move), n_move) + c(rep(sign(n_fixed_move), abs(n_balanced_move)), rep(0, n_move - abs(n_balanced_move)))
+            },
             size = n_move
           )
         ))

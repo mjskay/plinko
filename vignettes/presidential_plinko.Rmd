@@ -53,7 +53,8 @@ electoral votes Biden will receive in the 2020 US Presidential election:
 
 ```{r}
 # this 20 quantiles from the Economist's forecast as of Sept 29, 2020.
-x = c(213, 243, 266, 279, 290, 304, 310, 319, 323, 333, 339, 345,  352, 357, 363, 372, 374, 385.125, 399, 415)
+# x = c(213, 243, 266, 279, 290, 304, 310, 319, 323, 333, 339, 345,  352, 357, 363, 372, 374, 385.125, 399, 415)
+x = c("1%" = 227, "3%" = 253, "5%" = 273, "7%" = 279, "9%" = 288,  "11%" = 290, "13%" = 296, "15%" = 304, "17%" = 308, "19%" = 310,  "21%" = 315, "23%" = 319, "25%" = 319, "27%" = 321, "29%" = 323,  "31%" = 328, "33%" = 333, "35%" = 334, "37%" = 335, "39%" = 339,  "41%" = 340, "43%" = 342, "45%" = 346, "47%" = 350, "49%" = 350,  "51%" = 352, "53%" = 356, "55%" = 357, "57%" = 358, "59%" = 359,  "61%" = 363, "63%" = 368, "65%" = 372, "67%" = 374, "69%" = 374,  "71%" = 374, "73%" = 374, "75%" = 378, "77%" = 383, "79%" = 388,  "81%" = 388, "83%" = 394, "85%" = 396, "87%" = 405, "89%" = 412,  "91%" = 412, "93%" = 412, "95%" = 415, "97%" = 421, "99%" = 432.01 )
 
 tibble(x) %>%
   ggplot(aes(x = x)) +
@@ -73,8 +74,12 @@ take and the number of pins in one row of the board (equivalently, the size of t
 distribution we are simulating with the board):
 
 ```{r}
-n_bin = 6
-bin_width = 41
+# n_bin = 6
+# bin_width = 41
+# board_center = 330.5
+n_bin = 5
+bin_width = 39
+board_center = 347
 ```
 
 Then we can construct the Plinko board:
@@ -83,7 +88,7 @@ Then we can construct the Plinko board:
 set.seed(12345)
 
 board = plinko_board(
-  x, n_bin, bin_width, center = 330.5,
+  x, n_bin, bin_width, center = board_center,
   limits = c(0, 538)#, total_height = 2445
 )
 
