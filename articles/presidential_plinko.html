@@ -83,7 +83,8 @@
 
       
 
-      </header><script src="presidential_plinko_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="presidential_plinko_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="presidential_plinko_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="presidential_plinko_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Presidential Plinko</h1>
@@ -141,13 +142,14 @@ img {
 <p>First, to determine the board dimensions, we need to decide on the number of draws we will take and the number of pins in one row of the board (equivalently, the size of the Binomial distribution we are simulating with the board):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">n_bin</span> <span class="op">=</span> <span class="fl">6</span>
-<span class="va">bin_width</span> <span class="op">=</span> <span class="fl">41</span></pre></div>
+<span class="va">bin_width</span> <span class="op">=</span> <span class="fl">41</span>
+<span class="va">board_center</span> <span class="op">=</span> <span class="fl">330.5</span></pre></div>
 <p>Then we can construct the Plinko board:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span>
 
 <span class="va">board</span> <span class="op">=</span> <span class="fu"><a href="../reference/plinko_board.html">plinko_board</a></span><span class="op">(</span>
-  <span class="va">x</span>, <span class="va">n_bin</span>, <span class="va">bin_width</span>, center <span class="op">=</span> <span class="fl">330.5</span>,
+  <span class="va">x</span>, <span class="va">n_bin</span>, <span class="va">bin_width</span>, center <span class="op">=</span> <span class="va">board_center</span>,
   limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">538</span><span class="op">)</span><span class="co">#, total_height = 2445</span>
 <span class="op">)</span>
 
