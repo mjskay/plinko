@@ -27,6 +27,7 @@ plinko_board(x, ...)
   bin_width = NULL,
   n_ball = 50,
   sampling = c("quantiles", "random"),
+  center = NULL,
   ...
 )
 }

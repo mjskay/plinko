@@ -137,10 +137,11 @@ plinko_board.distribution = function(
   x, n_bin = NULL, bin_width = NULL,
   n_ball = 50,
   sampling = c("quantiles", "random"),
+  center = NULL,
   ...
 ) {
   sampling = match.arg(sampling)
-  mean_x = mean(x)
+  center = center %||% mean(x)
   var_x = variance(x)
 
   if (!is.null(n_bin)) {
@@ -170,7 +171,7 @@ plinko_board.distribution = function(
     random = unlist(generate(x, n_ball))
   )
 
-  board = plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = mean_x, ...)
+  board = plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = center, ...)
 
   # add additional layer showing the target distribution (only for boards built with distributional)
   board$dist = x
