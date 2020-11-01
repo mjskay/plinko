@@ -42,6 +42,7 @@ library(dplyr)
 library(ggplot2)
 library(ggdist)
 library(ggforce)
+library(distributional)
 
 theme_set(theme_ggdist())
 ```
