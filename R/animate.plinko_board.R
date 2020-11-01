@@ -7,10 +7,12 @@ gganimate::animate
 #' Animate a `plinko_board()` object. Follows the syntax for `gganimate::animate()`
 #' with a few exceptions/additions noted below.
 #'
-#' @inheritParams gganimate::animate
 #' @inheritParams autoplot.plinko_board
 #' @param plot A [plinko_board()] object
-#' @param device A device function used to render images. Default `ragg::agg_png`
+#' @param fps The framerate of the animation in frames/sec (default `10`).
+#' @param renderer The function used to render the generated frames into an animation.
+#'   Gets a vector of paths to images along with the framerate. (default `gganimate::gifski_renderer()`)
+#' @param device A device function used to render images. Default [`ragg::agg_png`]
 #'   is faster and produces higher-quality output than the base `png` function.
 #' @param start_pause,end_pause Number of times to repeat the first and last
 #'   frame in the animation (default is `0` for both)
@@ -22,6 +24,9 @@ gganimate::animate
 #'   to pixels. Further, it will be used to scale text sizes and linewidths
 #' @param progress Output progress bar and messages? Default is to only output
 #'   during interactive sessions.
+#' @param ... Arguments passed on to the device. See [`ragg::agg_png`] for the
+#'   arguments for the default device. For available device arguments to other
+#'   devices, see the corresponding documentation (e.g. [grDevices::png()]).
 #'
 #' @importFrom grDevices dev.off
 #' @importFrom utils setTxtProgressBar txtProgressBar

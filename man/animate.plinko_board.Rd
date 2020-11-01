@@ -24,12 +24,12 @@
 \arguments{
 \item{plot}{A \code{\link[=plinko_board]{plinko_board()}} object}
 
-\item{fps}{The framerate of the animation in frames/sec (default \code{10})}
+\item{fps}{The framerate of the animation in frames/sec (default \code{10}).}
 
-\item{renderer}{The function used to render the generated frames into an
-animation. Gets a vector of paths to images along with the framerate. (default \code{\link[gganimate:renderers]{gifski_renderer()}})}
+\item{renderer}{The function used to render the generated frames into an animation.
+Gets a vector of paths to images along with the framerate. (default \code{gganimate::gifski_renderer()})}
 
-\item{device}{A device function used to render images. Default \code{ragg::agg_png}
+\item{device}{A device function used to render images. Default \code{\link[ragg:agg_png]{ragg::agg_png}}
 is faster and produces higher-quality output than the base \code{png} function.}
 
 \item{start_pause, end_pause}{Number of times to repeat the first and last
@@ -56,7 +56,9 @@ Plinko board be shown?}
 (like \code{\link[=dist_normal]{dist_normal()}}, etc), should an overlay of the target distribution
 for this Plinko board be shown?}
 
-\item{...}{Arguments passed on to the device}
+\item{...}{Arguments passed on to the device. See \code{\link[ragg:agg_png]{ragg::agg_png}} for the
+arguments for the default device. For available device arguments to other
+devices, see the corresponding documentation (e.g. \code{\link[grDevices:png]{grDevices::png()}}).}
 }
 \description{
 Animate a \code{plinko_board()} object. Follows the syntax for \code{gganimate::animate()}
