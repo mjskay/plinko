@@ -173,10 +173,10 @@ plinko_board.distribution = function(
   board = plinko_board(x_samples, n_bin = n_bin, bin_width = bin_width, center = mean_x, ...)
 
   # add additional layer showing the target distribution (only for boards built with distributional)
-  board$dist = dist
+  board$dist = x
   board$ggplot_layers$target_dist = list(
     geom = quote(stat_dist_slab), data = quote(tibble(dist = board$dist)),
-    mapping = aes(dist = dist, y = 0, thickness = stat(f) * board$n_ball * board$ball_width * board$bin_width),
+    mapping = quote(aes(dist = dist, y = 0, thickness = stat(f) * board$n_ball * board$ball_width * board$bin_width)),
     colour = "#d95f02", fill = NA, alpha = 0.75, normalize = "none", scale = 1, size = 1
   )
 

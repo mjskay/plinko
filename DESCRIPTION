@@ -13,6 +13,8 @@ Description: Create animated Plinko boards (as known as Galton boards,
     desired sample or set of quantiles, then renders the Plinko board as
     an animated GIF or video.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 2.10)
 Imports:
     dplyr,
     tidyr,
@@ -31,7 +33,8 @@ Suggests:
     knitr,
     rmarkdown,
     clipr,
-    vdiffr
+    vdiffr,
+    usethis
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
