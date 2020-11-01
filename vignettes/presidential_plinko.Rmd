@@ -112,14 +112,14 @@ object, which is an object that represents some probability distribution.
 Given a distributional object and either a desired bin width (`bin_width`) **or**
 number of bins (`n_bin`), `plinko_board()` will do its best to automatically figure 
 out the necessary board parameters to accomodate some number of balls from that
-distribution (`n_ball`, which by default is `50`).
+distribution (`n_ball`, which by default is `50`, but we will use just `20` for this example).
 
 We can construct a distributional object from sample data using `distributional::dist_sample()`
 and pass it to `plinko_board()`:
 
 ```{r board_1}
 ev_dist = dist_sample(list(ev_sample))
-board = plinko_board(ev_dist, bin_width = 35)
+board = plinko_board(ev_dist, bin_width = 35, n_ball = 20)
 board
 ```
 
@@ -131,7 +131,7 @@ The Plinko board will automatically find random paths the balls could have taken
 to end up in their final locations. We can see these paths by plotting the board
 with the `autoplot()` function, which returns a `ggplot()` object:
 
-```{r fig.height = 5, fig.width = 1.5}
+```{r fig.height = 4.75, fig.width = 1.5}
 board %>%
   autoplot()
 ```
@@ -139,7 +139,7 @@ board %>%
 By default the plot overlays the Binomial distribution implied by the Plinko board so 
 you can judge the quality of the approximation. We can also turn this off:
 
-```{r fig.height = 5, fig.width = 1.5}
+```{r fig.height = 4.75, fig.width = 1.5}
 board %>%
   autoplot(show_dist = FALSE)
 ```
@@ -147,7 +147,7 @@ board %>%
 You can also see the board without paths by passing `show_paths = FALSE`, and you 
 can plot specific frames of the animation by passing the `frame` parameter:
 
-```{r fig.height = 5, fig.width = 1.5}
+```{r fig.height = 4.75, fig.width = 1.5}
 autoplot(board, show_paths = FALSE, frame = 9)
 ```
 
@@ -156,7 +156,7 @@ autoplot(board, show_paths = FALSE, frame = 9)
 We could also create a plot like the ones above manually by using the `slot_edges()`, `pins()`, `paths()`, and `balls()`
 unctions, which return data frames containing the locations of all of the elements of the board:
 
-```{r board_plot, fig.height = 5, fig.width = 1.5}
+```{r board_plot, fig.height = 4.75, fig.width = 1.5}
 ggplot() + 
   geom_segment(aes(x = x, y = 0, xend = x, yend = height), data = slot_edges(board), color = "gray75", size = 1) + 
   geom_point(aes(x, y), data = pins(board), shape = 19, color = "#e41a1c", size = 1) +
@@ -187,7 +187,7 @@ how well our current approximation does by turning off the display of ball paths
 and adding on a vertical line at `269`. `autoplot()` returns a `ggplot` object
 so this is straightforward:
 
-```{r board_1_edge_plot, fig.height = 5, fig.width = 1.5}
+```{r board_1_edge_plot, fig.height = 4.75, fig.width = 1.5}
 autoplot(board, show_paths = FALSE) +
   geom_vline(xintercept = 269)
 ```
@@ -215,8 +215,8 @@ bin_width
 
 Let's see how the board looks with `r bin_width` bins:
 
-```{r board_2, fig.height = 5, fig.width = 1.5}
-board = plinko_board(ev_dist, bin_width = bin_width)
+```{r board_2, fig.height = 4.75, fig.width = 1.5}
+board = plinko_board(ev_dist, bin_width = bin_width, n_ball = 20)
 
 autoplot(board, show_paths = FALSE) +
   geom_vline(xintercept = 269)
@@ -240,9 +240,9 @@ slot_edge_shift
 
 Then we can use this to shift the board center slightly
 
-```{r board_3, fig.height = 5, fig.width = 1.5}
+```{r board_3, fig.height = 4.75, fig.width = 1.5}
 shifted_center = board$center + slot_edge_shift
-board = plinko_board(ev_dist, bin_width = bin_width, center = shifted_center)
+board = plinko_board(ev_dist, bin_width = bin_width, n_ball = 20, center = shifted_center)
 
 autoplot(board, show_paths = FALSE) +
   geom_vline(xintercept = 269)
@@ -261,8 +261,8 @@ First, we can adjust the limits of the board using the `limits` parameter.
 For this use case we should show the distribution compared to the full
 range of possible electoral votes:
 
-```{r board_limits, fig.height = 5, fig.width = 2}
-board = plinko_board(ev_dist, bin_width = bin_width, center = shifted_center, limits = c(0, 538))
+```{r board_limits, fig.height = 4.5, fig.width = 1.5}
+board = plinko_board(ev_dist, bin_width = bin_width, n_ball = 20, center = shifted_center, limits = c(0, 538))
 
 autoplot(board)
 ```
@@ -279,7 +279,7 @@ layer, and new arguments you provide override existing ones.
 For example, say you want to make the ball fill color depend on its x position, and
 change the outline color to be black:
 
-```{r fig.height = 5, fig.width = 2.5}
+```{r fig.height = 4.5, fig.width = 2.5}
 board %>%
   modify_layer("balls", aes(fill = x), color = "black") %>%
   autoplot(show_dist = FALSE)
@@ -296,7 +296,7 @@ You can use `modify_layer()` to adjust the following layers:
 When plotting a single frame, you can also add additional ggplot objects after
 the call to `autoplot()`, as with any ggplot object:
 
-```{r fig.height = 5, fig.width = 2}
+```{r fig.height = 4.5, fig.width = 1.5}
 board %>%
   autoplot(show_dist = FALSE, show_paths = FALSE) +
   geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1) +
@@ -310,7 +310,7 @@ To add ggplot objects to the `board` object so that they are displayed when the
 board is animated, you must use the `add_layers()` function *before* calling
 `autoplot()` or `animate()`. Here is the same example using `add_layers()`:
 
-```{r fig.height = 5, fig.width = 2}
+```{r fig.height = 4.5, fig.width = 1.5}
 board %>%
   add_layers(
     geom_vline(xintercept = 269, color = "black", alpha = 0.15, size = 1),
@@ -326,10 +326,10 @@ we'll have to use the `add_layers()` approach.
 
 By default, no tweening is done between balls on the board:
 
-```{r animate_no_tween}
-board %>%
+```{r animate_no_tween, fig.height = 4.5, fig.width = 2}
+board %>% 
   # width is determined automatically based on height
-  animate(fps = 7.5, height = 500)
+  animate(fps = 7.5, height = 450)
 ```
 
 Most likely you will want some tweening between ball states. I find that using 4 times the
@@ -342,7 +342,7 @@ of the animation using `end_pause`:
 ```{r animate_tween}
 board %>%
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
-  animate(fps = 30, height = 500, end_pause = 90)
+  animate(fps = 30, height = 450, end_pause = 90)
 ```
 
 For testing purposes (e.g. faster rendering), it can also be useful to filter the frames in the final animation.
@@ -355,7 +355,7 @@ bottom of a slot and stops moving) to show just one ball dropping, for example:
 board %>%
   filter_frames(ball_id == 1, !stopped) %>%
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
-  animate(fps = 30, height = 500)
+  animate(fps = 30, height = 450)
 ```
 
 ## A full, annotated board
@@ -364,7 +364,7 @@ Finally, we can combine everything together to adjust the existing geometries
 with `modify_layer()`, add annotations with `add_layers()`, add tweening
 with `tween_balls()`, then animate:
 
-```{r fig.height = 6, fig.width = 2.5}
+```{r fig.height = 5.5, fig.width = 2}
 Biden_color = "#0571b0"
 Trump_color = "#ca0020"
 
@@ -403,7 +403,7 @@ board %>%
     ),
     theme(axis.title.x = element_text(hjust = 0, size = 10, color = "gray25")),
     xlab("Electoral votes for Biden")
-  ) %>%
+  )
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
-  animate(fps = 30, height = 600, end_pause = 90)
+  animate(fps = 30, height = 550, end_pause = 90)
 ```
