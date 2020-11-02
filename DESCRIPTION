@@ -30,7 +30,10 @@ Imports:
     gganimate,
     tweenr,
     gifski,
-    ragg
+    ragg,
+    doParallel,
+    parallel,
+    foreach
 Suggests: 
     testthat,
     knitr,

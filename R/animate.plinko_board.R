@@ -30,6 +30,7 @@ gganimate::animate
 #'
 #' @importFrom grDevices dev.off
 #' @importFrom utils setTxtProgressBar txtProgressBar
+#' @importFrom foreach foreach `%dopar%`
 #' @export
 animate.plinko_board = function(
   plot,
@@ -76,25 +77,43 @@ animate.plinko_board = function(
     frame_dfs = c(start_frames, frame_dfs, end_frames)
 
     # render individual frames to png files
+    sum_with_progress = sum
     if (progress) {
       cat("Rendering frames...\n")
       pb = txtProgressBar(max = length(frame_dfs), style = 3)
+      sum_with_progress = function(...) {
+        count = sum(...)
+        setTxtProgressBar(pb, count)
+        flush.console()
+        count
+      }
     }
-    for (i in seq_along(frame_dfs)) {
-      frame_df = frame_dfs[[i]]
-      outfile = sprintf("%s/%04i.png", png_dir, i)
-      device(outfile, width = width, height = height, res = res, ...)
 
-      tryCatch({
-        print(.plot_plinko_board(board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist))
-      },
+    tryCatch({
+      cores = getOption("mc.cores") %||% 1
+      doParallel::registerDoParallel(cores, cores)
+      foreach(i = seq_along(frame_dfs), .combine = sum_with_progress) %dopar% {
+      # for (i in seq_along(frame_dfs)) {
+        frame_df = frame_dfs[[i]]
+        outfile = sprintf("%s/%04i.png", png_dir, i)
+        device(outfile, width = width, height = height, res = res, ...)
+
+        tryCatch({
+          print(.plot_plinko_board(board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist))
+        },
         finally = {
           invisible(dev.off())
         })
 
-      if (progress) setTxtProgressBar(pb, i)
-    }
-    if (progress) close(pb)
+        # if (progress) setTxtProgressBar(pb, i)
+        # if (progress) cat(i, "/", length(frame_dfs), "\n")
+        1
+      }
+      if (progress) close(pb)
+    },
+    finally = {
+      doParallel::stopImplicitCluster()
+    })
 
     # combine frames into animation
     animation = renderer(list.files(png_dir, pattern = "*.png", full.names = TRUE), fps)
