@@ -78,30 +78,26 @@ animate.plinko_board = function(
     end_frames = rep(frame_dfs[length(frame_dfs)], end_pause)
     frame_dfs = c(start_frames, frame_dfs, end_frames)
 
-    # render individual frames to png files
-    sum_with_progress = sum
+    # set up progress bar
     if (progress) {
       cat("Rendering frames...\n")
       pb = txtProgressBar(max = length(frame_dfs), style = 3)
-      sum_with_progress = function(...) {
-        count = sum(...)
-        setTxtProgressBar(pb, count)
-        flush.console()
-        count
-      }
     }
 
+    # render individual frames to png files
     tryCatch({
+      # for parallel execution, set up cluster
+      snow_opts = list()
       `%do_impl%` = if (cores > 1) {
-        doParallel::registerDoParallel(cores, cores)
+        cl = snow::makeCluster(cores)
+        doSNOW::registerDoSNOW(cl)
+        snow_opts$progress = function(n) setTxtProgressBar(pb, n)
         `%dopar%`
       } else {
-        # sum_with_progress = sum
         `%do%`
       }
 
-      foreach(i = seq_along(frame_dfs), .combine = sum_with_progress) %do_impl% {
-      # for (i in seq_along(frame_dfs)) {
+      foreach(i = seq_along(frame_dfs), .combine = sum, .options.snow = snow_opts) %do_impl% {
         frame_df = frame_dfs[[i]]
         outfile = sprintf("%s/%04i.png", png_dir, i)
         device(outfile, width = width, height = height, res = res, ...)
@@ -113,13 +109,13 @@ animate.plinko_board = function(
           invisible(dev.off())
         })
 
-        # if (cores == 1 && progress) setTxtProgressBar(pb, i)
+        if (cores == 1 && progress) setTxtProgressBar(pb, i)
         1
       }
       if (progress) close(pb)
     },
     finally = {
-      doParallel::stopImplicitCluster()
+      if (cores > 1) snow::stopCluster(cl)
     })
 
     # combine frames into animation

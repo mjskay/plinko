@@ -329,7 +329,7 @@ By default, no tweening is done between balls on the board:
 ```{r animate_no_tween, fig.height = 4.5, fig.width = 2}
 board %>% 
   # width is determined automatically based on height
-  animate(fps = 7.5, height = 450, cores = 1)
+  animate(fps = 7.5, height = 450)
 ```
 
 Most likely you will want some tweening between ball states. I find that using 4 times the

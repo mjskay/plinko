@@ -31,8 +31,8 @@ Imports:
     tweenr,
     gifski,
     ragg,
-    doParallel,
-    parallel,
+    doSNOW,
+    snow,
     foreach
 Suggests: 
     testthat,
