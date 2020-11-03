@@ -18,6 +18,7 @@
   show_paths = FALSE,
   show_dist = FALSE,
   show_target_dist = FALSE,
+  cores = 1,
   ...
 )
 }
@@ -55,6 +56,8 @@ Plinko board be shown?}
 \href{https://pkg.mitchelloharawild.com/distributional/}{distributional} object
 (like \code{\link[=dist_normal]{dist_normal()}}, etc), should an overlay of the target distribution
 for this Plinko board be shown?}
+
+\item{cores}{\strong{(experimental)} How many cores to use to render animation frames.}
 
 \item{...}{Arguments passed on to the device. See \code{\link[ragg:agg_png]{ragg::agg_png}} for the
 arguments for the default device. For available device arguments to other

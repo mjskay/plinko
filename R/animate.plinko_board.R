@@ -24,13 +24,14 @@ gganimate::animate
 #'   to pixels. Further, it will be used to scale text sizes and linewidths
 #' @param progress Output progress bar and messages? Default is to only output
 #'   during interactive sessions.
+#' @param cores **(experimental)** How many cores to use to render animation frames.
 #' @param ... Arguments passed on to the device. See [`ragg::agg_png`] for the
 #'   arguments for the default device. For available device arguments to other
 #'   devices, see the corresponding documentation (e.g. [grDevices::png()]).
 #'
 #' @importFrom grDevices dev.off
 #' @importFrom utils setTxtProgressBar txtProgressBar
-#' @importFrom foreach foreach `%dopar%`
+#' @importFrom foreach foreach `%dopar%` `%do%`
 #' @export
 animate.plinko_board = function(
   plot,
@@ -49,6 +50,7 @@ animate.plinko_board = function(
   show_paths = FALSE,
   show_dist = FALSE,
   show_target_dist = FALSE,
+  cores = 1,
   ...
 ) {
   board = plot
@@ -90,9 +92,15 @@ animate.plinko_board = function(
     }
 
     tryCatch({
-      cores = getOption("mc.cores") %||% 1
-      doParallel::registerDoParallel(cores, cores)
-      foreach(i = seq_along(frame_dfs), .combine = sum_with_progress) %dopar% {
+      `%do_impl%` = if (cores > 1) {
+        doParallel::registerDoParallel(cores, cores)
+        `%dopar%`
+      } else {
+        # sum_with_progress = sum
+        `%do%`
+      }
+
+      foreach(i = seq_along(frame_dfs), .combine = sum_with_progress) %do_impl% {
       # for (i in seq_along(frame_dfs)) {
         frame_df = frame_dfs[[i]]
         outfile = sprintf("%s/%04i.png", png_dir, i)
@@ -105,8 +113,7 @@ animate.plinko_board = function(
           invisible(dev.off())
         })
 
-        # if (progress) setTxtProgressBar(pb, i)
-        # if (progress) cat(i, "/", length(frame_dfs), "\n")
+        # if (cores == 1 && progress) setTxtProgressBar(pb, i)
         1
       }
       if (progress) close(pb)
