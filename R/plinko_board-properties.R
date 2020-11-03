@@ -32,14 +32,15 @@ paths = function(board) {
 balls = function(board) {
   paths(board) %>%
     filter(move_id == max(move_id)) %>%
-    mutate(stopped = FALSE)
+    mutate(stopped = FALSE, stopped_for = 0)
 }
 
 #' @describeIn plinko_board-properties Frames in the animation giving ball locations
 #' @export
 frames = function(board) {
   board$frames_df %>%
-    select(frame_id, ball_id, move_id, bin, pin, x, y, width, region, stopped)
+    mutate(stopped_for = visible_move_id - move_id) %>%
+    select(frame_id, ball_id, move_id, bin, pin, x, y, width, region, stopped, stopped_for)
 }
 
 #' @describeIn plinko_board-properties Number of frames in the Plinko board.
