@@ -18,6 +18,7 @@ plinko_board(x, ...)
   row_ratio = 2,
   frames_till_drop = 4,
   slot_height = NULL,
+  stack = TRUE,
   ...
 )
 
@@ -58,6 +59,8 @@ Defaults to \code{4}.}
 \item{slot_height}{Height of the slots. If \code{NULL} (the default), determined
 automatically based on the height of the highest bin plus a bit of
 overhead.}
+
+\item{stack}{Should the balls stack on top of each other? Default \code{TRUE}.}
 
 \item{sampling}{For \code{plinko_board.distribution}, how to "sample" balls from the
 distribution. Use \code{"quantiles"}, uses quantiles of the distribution; if

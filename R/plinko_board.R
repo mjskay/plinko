@@ -30,6 +30,7 @@ globalVariables(c(
 #' @param sampling For `plinko_board.distribution`, how to "sample" balls from the
 #'   distribution. Use `"quantiles"`, uses quantiles of the distribution; if
 #'   `"random"`, samples balls randomly.
+#' @param stack Should the balls stack on top of each other? Default `TRUE`.
 #' @param ... Arguments passed on to lower-level implementations of `plinko_board()`.
 #'   Currently all implementations call down to `plinko_board.numeric()`, so `...`
 #'   may include arguments to that function not otherwise defined.
@@ -54,6 +55,7 @@ plinko_board.numeric = function(
   row_ratio = 2,
   frames_till_drop = 4,
   slot_height = NULL,
+  stack = TRUE,
   ...
 ) {
   # TODO: either bin_width or n_bin should be determined automatically if the
@@ -97,7 +99,7 @@ plinko_board.numeric = function(
 
   board = create_slots(board)
   board = create_pins(board)
-  board = create_paths(board)
+  board = create_paths(board, stack = stack)
   board = create_frames(board)
 
   # customizable pre-defined layers (can be changed with modify_layer())
@@ -234,7 +236,7 @@ create_pins = function(board) { within(board, {
 })}
 
 # Create the paths of the balls
-create_paths = function(board) {
+create_paths = function(board, stack) {
   # Instead of simulating the ball's path through the pins with a physics engine
   # determine random paths that could have led to the distribution we have
 
@@ -252,7 +254,13 @@ create_paths = function(board) {
         move_id = n_bin + 2,
       ) %>%
       group_by(x) %>%
-      mutate(y = 1:n() * ball_width - ball_width/2)
+      mutate(y = if (stack) {
+        # stack the balls one on top of another
+        1:n() * ball_width - ball_width/2
+      } else {
+        # do not stack balls
+        ball_width/2
+      })
     )
 
     # Now we need to come up with paths for each ball that would cause them to end up in their final locations.

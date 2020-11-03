@@ -31,7 +31,8 @@ paths = function(board) {
 #' @export
 balls = function(board) {
   paths(board) %>%
-    filter(move_id == max(move_id))
+    filter(move_id == max(move_id)) %>%
+    mutate(stopped = FALSE)
 }
 
 #' @describeIn plinko_board-properties Frames in the animation giving ball locations
