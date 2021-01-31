@@ -1,8 +1,13 @@
 ---
 title: "Presidential Plinko"
-output: rmarkdown::html_vignette
+author: "Matthew Kay"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    df_print: kable
 vignette: >
-  %\VignetteIndexEntry{presidential_plinko}
+  %\VignetteIndexEntry{Presidential Plinko}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -45,6 +50,18 @@ library(ggforce)
 library(distributional)
 
 theme_set(theme_ggdist())
+```
+
+```{r hidden_options, include=FALSE}
+cores = if (!requireNamespace("parallel", quietly = TRUE)) {
+  1
+} else if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+  parallel::detectCores()
+} else {
+  # CRAN checks cap max cores at 2
+  min(parallel::detectCores(), 2)
+}
+.old_options = options(cores = cores)
 ```
 
 ## Desired target sample
@@ -345,6 +362,16 @@ board %>%
   animate(fps = 30, height = 450, end_pause = 90)
 ```
 
+Given the increased number of frames due to tweening,
+you may want to increase speed by rendering frames in parallel using the `cores` argument to
+`animate.plinko_board()`. The `cores` argument defaults to `getOptions("cores", 1)`,
+so if you want to set the number of cores to the total number available for all
+subsequent calls to `animate.plinko_board()`, you can also use:
+
+```r
+options(cores = parallel::detectCores())
+```
+
 For testing purposes (e.g. faster rendering), it can also be useful to filter the frames in the final animation.
 You can do this using `filter_frames()`, which takes filtering conditions in the same format
 as `filter()` and applies them to the data frame returned by `frames(board)`. The `"ball_id"` column
@@ -403,7 +430,12 @@ board %>%
     ),
     theme(axis.title.x = element_text(hjust = 0, size = 10, color = "gray25")),
     xlab("Electoral votes for Biden")
-  )
+  ) %>%
   tween_balls(frame_mult = 4, ease = "bounce-out") %>%
   animate(fps = 30, height = 550, end_pause = 90)
+```
+
+
+```{r reset_options, include=FALSE}
+options(.old_options)
 ```

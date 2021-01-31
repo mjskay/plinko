@@ -50,7 +50,7 @@ animate.plinko_board = function(
   show_paths = FALSE,
   show_dist = FALSE,
   show_target_dist = FALSE,
-  cores = 1,
+  cores = getOption("cores", 1),
   ...
 ) {
   board = plot
@@ -91,16 +91,33 @@ animate.plinko_board = function(
       `%do_impl%` = if (cores > 1) {
         cl = snow::makeCluster(cores)
         doSNOW::registerDoSNOW(cl)
-        snow_opts$progress = function(n) setTxtProgressBar(pb, n)
+        # need to save ggplot theme and reapply it on each worker since workers
+        # may not be in the same process
+        ggplot_theme = theme_get()
+
         `%dopar%`
       } else {
         `%do%`
       }
 
-      foreach(i = seq_along(frame_dfs), .combine = sum, .options.snow = snow_opts) %do_impl% {
+      i = NULL # avoid no visible binding warning from CHECK
+      foreach(
+          i = seq_along(frame_dfs),
+          .combine = function(...) {
+            n = sum(...)
+            setTxtProgressBar(pb, n)
+            n
+          },
+          .multicombine = TRUE,
+          .inorder = FALSE
+      ) %do_impl% {
         frame_df = frame_dfs[[i]]
         outfile = sprintf("%s/%04i.png", png_dir, i)
         device(outfile, width = width, height = height, res = res, ...)
+
+        if (cores > 1) {
+          theme_set(ggplot_theme)
+        }
 
         tryCatch({
           print(.plot_plinko_board(board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist))
@@ -120,7 +137,7 @@ animate.plinko_board = function(
 
     # combine frames into animation
     animation = renderer(list.files(png_dir, pattern = "*.png", full.names = TRUE), fps)
-    gganimate:::set_last_animation(animation)
+    utils::getFromNamespace("set_last_animation", "gganimate")(animation)
     animation
   },
   finally = {

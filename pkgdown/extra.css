@@ -32,7 +32,7 @@ img#tidybayes_logo {
   margin-top: -26px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 620px) {
   img#tidybayes_logo {
     display: none;
   }

@@ -1,5 +1,5 @@
 
-# plinko: Animated Plinko Boards
+# plinko: Animated Plinko Boards <img id="tidybayes_logo" src="man/figures/logo.svg" align="right" />
 
 <!-- badges: start -->
 

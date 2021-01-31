@@ -31,16 +31,17 @@ Imports:
     tweenr,
     gifski,
     ragg,
-    doSNOW,
+    foreach,
     snow,
-    foreach
+    doSNOW
 Suggests: 
     testthat,
     knitr,
     rmarkdown,
     clipr,
     vdiffr,
-    usethis
+    usethis,
+    parallel
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -38,9 +38,9 @@ balls = function(board) {
 #' @describeIn plinko_board-properties Frames in the animation giving ball locations
 #' @export
 frames = function(board) {
-  board$frames_df %>%
-    mutate(stopped_for = visible_move_id - move_id) %>%
-    select(frame_id, ball_id, move_id, bin, pin, x, y, width, region, stopped, stopped_for)
+  frames_df = board$frames_df
+  frames_df$stopped_for = frames_df$visible_move_id - frames_df$move_id
+  frames_df[,c("frame_id", "ball_id", "move_id", "bin", "pin", "x", "y", "width", "region", "stopped", "stopped_for")]
 }
 
 #' @describeIn plinko_board-properties Number of frames in the Plinko board.

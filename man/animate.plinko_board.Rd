@@ -18,7 +18,7 @@
   show_paths = FALSE,
   show_dist = FALSE,
   show_target_dist = FALSE,
-  cores = 1,
+  cores = getOption("cores", 1),
   ...
 )
 }
