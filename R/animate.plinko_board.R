@@ -116,7 +116,7 @@ animate.plinko_board = function(
         device(outfile, width = width, height = height, res = res, ...)
 
         if (cores > 1) {
-          theme_set(ggplot_theme)
+          ggplot2::theme_set(ggplot_theme)
         }
 
         tryCatch({
