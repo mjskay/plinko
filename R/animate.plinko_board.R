@@ -102,14 +102,13 @@ animate.plinko_board = function(
 
       i = NULL # avoid no visible binding warning from CHECK
       foreach(
-          i = seq_along(frame_dfs),
-          .combine = function(...) {
-            n = sum(...)
-            setTxtProgressBar(pb, n)
-            n
-          },
-          .multicombine = TRUE,
-          .inorder = FALSE
+        i = seq_along(frame_dfs),
+        .combine = function(x, y) {
+          n = x + y
+          if (progress) setTxtProgressBar(pb, n)
+          n
+        },
+        .inorder = FALSE
       ) %do_impl% {
         frame_df = frame_dfs[[i]]
         outfile = sprintf("%s/%04i.png", png_dir, i)
@@ -128,7 +127,6 @@ animate.plinko_board = function(
           invisible(dev.off())
         })
 
-        if (cores == 1 && progress) setTxtProgressBar(pb, i)
         1
       }
       if (progress) close(pb)
