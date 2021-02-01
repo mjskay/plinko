@@ -120,7 +120,11 @@ animate.plinko_board = function(
         }
 
         tryCatch({
-          print(.plot_plinko_board(board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist))
+          # explicit getFromNamespace needed here due to some parallel implementations
+          # not loading the function properly?
+          print(utils::getFromNamespace(".plot_plinko_board", "plinko")(
+            board, frame_df, show_paths = show_paths, show_dist = show_dist, show_target_dist = show_target_dist
+          ))
         },
         finally = {
           invisible(dev.off())
