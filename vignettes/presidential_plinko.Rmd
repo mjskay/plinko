@@ -53,16 +53,11 @@ theme_set(theme_ggdist())
 ```
 
 ```{r hidden_options, include=FALSE}
-cores = if (requireNamespace("parallel", quietly = TRUE) && identical(Sys.getenv("NOT_CRAN"), "true")) {
-  parallel::detectCores()
-} else {
-  # Something about vignette buiding order means multicore isn't working on CRAN on windows
-  # (getting errors about the package not having been installed) so on CRAN we'll use 1
-  # core (i.e. no parallel execution). CRAN doesn't like using more than 2 cores anyway
-  # so it's not a big loss.
-  1
-}
-.old_options = options(cores = cores)
+# Something about vignette buiding order means multicore isn't working on CRAN on windows
+# (getting errors about the package not having been installed) so on CRAN we'll use 1
+# core (i.e. no parallel execution). CRAN doesn't like using more than 2 cores anyway
+# so it's not a big loss.
+.old_options = options(cores = 1)
 ```
 
 ## Desired target sample
