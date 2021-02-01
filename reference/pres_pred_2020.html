@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tween balls in a Plinko board — tween_balls • plinko</title>
+<title>Probabilistic forecast of the 2020 US Presidential election from 538 — pres_pred_2020 • plinko</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Tween balls in a Plinko board — tween_balls" />
-<meta property="og:description" content="Adds tweening frames to the animation of ball positions in a Plinko board." />
+<meta property="og:title" content="Probabilistic forecast of the 2020 US Presidential election from 538 — pres_pred_2020" />
+<meta property="og:description" content="A dataset containing the predicted probabilities for each major party candidate
+to receive different numbers of electoral votes in the 2020 US Presidential
+election according to FiveThirtyEight as of October 16, 2020." />
 <meta property="og:image" content="http://mjskay.github.io/plinko/logo.svg" />
 
 
@@ -140,40 +142,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tween balls in a Plinko board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mjskay/plinko/blob/master/R/tween_balls.R'><code>R/tween_balls.R</code></a></small>
-    <div class="hidden name"><code>tween_balls.Rd</code></div>
+    <h1>Probabilistic forecast of the 2020 US Presidential election from 538</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mjskay/plinko/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>pres_pred_2020.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Adds tweening frames to the animation of ball positions in a Plinko board.</p>
+    <p>A dataset containing the predicted probabilities for each major party candidate
+to receive different numbers of electoral votes in the 2020 US Presidential
+election according to FiveThirtyEight as of October 16, 2020.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tween_balls</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>frame_mult</span>, ease <span class='op'>=</span> <span class='st'>"bounce-out"</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>board</th>
-      <td><p>A <code><a href='plinko_board.html'>plinko_board()</a></code> object</p></td>
-    </tr>
-    <tr>
-      <th>frame_mult</th>
-      <td><p>The number of frames to add per existing frame in the
-animation. 4 tends to be a good number.</p></td>
-    </tr>
-    <tr>
-      <th>ease</th>
-      <td><p>The easing function to use. See <code><a href='https://rdrr.io/pkg/tweenr/man/display_ease.html'>tweenr::display_ease()</a></code> for
-examples.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A modifed <code><a href='plinko_board.html'>plinko_board()</a></code> with tweened frames added.</p>
+    <p>A data frame with 539 rows and 11 variables:</p><dl>
+<dt>cycle</dt><dd><p>The election cycle: <code>2020</code></p></dd>
+<dt>branch</dt><dd><p>The kind of race this forecast pertains to: <code>"President"</code></p></dd>
+<dt>model</dt><dd><p>The model type: <code>"polls-plus"</code></p></dd>
+<dt>modeldate</dt><dd><p>Date of the model run, as a <a href='https://rdrr.io/r/base/Dates.html'>Date</a> object: <code>"2020-10-16"</code></p></dd>
+<dt>candidate_inc</dt><dd><p>Name of the incumbent: <code>"Trump"</code></p></dd>
+<dt>candidate_chal</dt><dd><p>Name of the challenger: <code>"Biden"</code></p></dd>
+<dt>evprob_inc</dt><dd><p>Chance that the incumbent wins <code>total_ev</code> electoral votes: <a href='https://rdrr.io/r/base/numeric.html'>numeric</a> between <code>0</code> and <code>1</code></p></dd>
+<dt>evprob_chal</dt><dd><p>Chance that the challenger wins <code>total_ev</code> electoral votes: <a href='https://rdrr.io/r/base/numeric.html'>numeric</a> between <code>0</code> and <code>1</code></p></dd>
+<dt>total_ev</dt><dd><p>Number of electoral votes in question: <a href='https://rdrr.io/r/base/integer.html'>integer</a> between <code>0</code> and <code>538</code></p></dd>
+<dt>timestamp</dt><dd><p>Date and time the simulations were run, as a <a href='https://rdrr.io/r/base/DateTimeClasses.html'>POSIXct</a> object: <code>"2020-10-16 21:08:11 EST"</code></p></dd>
+<dt>simulations</dt><dd><p>Number of simulations run: <code>40000</code></p></dd>
 
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>This dataset contains the electoral vote output of
+<a href='https://projects.fivethirtyeight.com/2020-election-forecast/'>FiveThirtyEight's 2020 US Presidential Election Forecast</a>
+as of Oct 16, 2020. The original dataset is licensed under the
+<a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0 license</a>. The dataset
+was obtained from the
+<a href='https://projects.fivethirtyeight.com/2020-general-data/presidential_ev_probabilities_2020.csv'>FiveThirtyEight website</a>,
+and its metadata description is based on the dataset description in the
+<a href='https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020'>FiveThirtyEight Github repository</a>.
+The dataset has been only been slightly modified: date formats were converted
+from strings into R date objects; empty columns related to third party candidates
+were dropped; and the data frame was sorted by <code>total_ev</code>.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pres_pred_2020</span>, package <span class='op'>=</span> <span class='st'>"plinko"</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>pres_pred_2020</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>total_ev</span>, y <span class='op'>=</span> <span class='va'>evprob_chal</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fl'>269</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Electoral votes for Biden"</span>,
+    y <span class='op'>=</span> <span class='st'>"Predicted probability"</span>,
+    title <span class='op'>=</span> <span class='st'>"Predictive distribution for Biden's electoral votes"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"FiveThirtyEight's model of the 2020 US election as of Oct 16, 2020"</span>
+  <span class='op'>)</span>
+</div><div class='img'><img src='pres_pred_2020-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

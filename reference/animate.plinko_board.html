@@ -101,7 +101,7 @@ with a few exceptions/additions noted below." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -122,7 +122,12 @@ with a few exceptions/additions noted below." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/mjskay/plinko/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -137,7 +142,7 @@ with a few exceptions/additions noted below." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Animate a Plinko board</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/mjskay/plinko/blob/master/R/animate.plinko_board.R'><code>R/animate.plinko_board.R</code></a></small>
     <div class="hidden name"><code>animate.plinko_board.Rd</code></div>
     </div>
 
@@ -161,6 +166,7 @@ with a few exceptions/additions noted below.</p>
   show_paths <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
   show_target_dist <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cores <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"cores"</span>, <span class='fl'>1</span><span class='op'>)</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -173,12 +179,12 @@ with a few exceptions/additions noted below.</p>
     </tr>
     <tr>
       <th>fps</th>
-      <td><p>The framerate of the animation in frames/sec (default <code>10</code>)</p></td>
+      <td><p>The framerate of the animation in frames/sec (default <code>10</code>).</p></td>
     </tr>
     <tr>
       <th>renderer</th>
-      <td><p>The function used to render the generated frames into an
-animation. Gets a vector of paths to images along with the framerate. (default <code><a href='https://gganimate.com/reference/renderers.html'>gifski_renderer()</a></code>)</p></td>
+      <td><p>The function used to render the generated frames into an animation.
+Gets a vector of paths to images along with the framerate. (default <code><a href='https://gganimate.com/reference/renderers.html'>gganimate::gifski_renderer()</a></code>)</p></td>
     </tr>
     <tr>
       <th>device</th>
@@ -224,8 +230,14 @@ Plinko board be shown?</p></td>
 for this Plinko board be shown?</p></td>
     </tr>
     <tr>
+      <th>cores</th>
+      <td><p><strong>(experimental)</strong> How many cores to use to render animation frames.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Arguments passed on to the device</p></td>
+      <td><p>Arguments passed on to the device. See <code><a href='https://ragg.r-lib.org/reference/agg_png.html'>ragg::agg_png</a></code> for the
+arguments for the default device. For available device arguments to other
+devices, see the corresponding documentation (e.g. <code><a href='https://rdrr.io/r/grDevices/png.html'>grDevices::png()</a></code>).</p></td>
     </tr>
     </table>
 

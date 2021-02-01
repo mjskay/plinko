@@ -57,7 +57,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -77,7 +77,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/mjskay/plinko/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -89,9 +96,10 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="plinko-animated-plinko-boards" class="section level1">
+<div id="plinko-animated-plinko-boards-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#plinko-animated-plinko-boards" class="anchor"></a>plinko: Animated Plinko Boards</h1></div>
+<a href="#plinko-animated-plinko-boards-" class="anchor"></a>plinko: Animated Plinko Boards <img id="tidybayes_logo" src="reference/figures/logo.svg" align="right">
+</h1></div>
 <!-- badges: start -->
 
 <p><code>plinko</code> is an R package for creating animated Plinko boards (as known as Galton boards, quincunxes, or bean machines). It helps determine Plinko board parameters and generates plausible paths through a Plinko board that result in a desired sample or set of quantiles, then renders the Plinko board as an animated GIF or video.</p>
@@ -99,36 +107,36 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install plinko with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mjskay/plinko"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mjskay/plinko"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This example requires the following libraries:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plinko</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/plinko/">plinko</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.mitchelloharawild.com/distributional/">distributional</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mjskay.github.io/ggdist">ggdist</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/ggdist/">ggdist</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="http://mjskay.github.io/ggdist/reference/theme_ggdist.html">theme_ggdist</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="http://mjskay.github.io/ggdist/reference/theme_ggdist.html">theme_ggdist</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You can construct plinko boards using distributions from the <a href="https://pkg.mitchelloharawild.com/distributional/">distributional</a> package:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>  <span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>  <span class="co"># for reproducibility</span>
 
 <span class="va">dist</span> <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html">dist_normal</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="va">board</span> <span class="op">=</span> <span class="fu"><a href="reference/plinko_board.html">plinko_board</a></span><span class="op">(</span><span class="va">dist</span>, n_bin <span class="op">=</span> <span class="fl">5</span>, n_ball <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">board</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">board</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README/board_plot-1.png"><!-- --></p>
 <p>The plot shows the pins and slots in the board, as well as the target distribution (in orange), the binomial distribution used to approximate it (in black), and 20 quantiles from the target distribution (in blue). By default, quantiles of the target distribution (rather than random samples) are used in order to ensure the final distribution of balls is representative of the target distribution. If you want a random sample of balls instead, you can pass <code>sampling = "random"</code> to <code><a href="reference/plinko_board.html">plinko_board()</a></code>.</p>
 <p>Once you are happy with the appearance of your plinko board, you can animate it using <code><a href="https://gganimate.com/reference/animate.html">animate()</a></code>, which by default will omit the annotations of the paths and distributions (though these can be added back in with <code>show_paths = TRUE</code>, <code>show_dist = TRUE</code>, or <code>show_target_dist = TRUE</code>). Here we’ll also use <code><a href="reference/tween_balls.html">tween_balls()</a></code> to add some tweening frames so the balls drop more smoothly, and set a <code>height</code> on the animation (given a desired height, <code><a href="reference/animate.plinko_board.html">animate.plinko_board()</a></code> will attempt to find a reasonable <code>width</code> automatically):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">board</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/tween_balls.html">tween_balls</a></span><span class="op">(</span>frame_mult <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">450</span>, fps <span class="op">=</span> <span class="fl">30</span>, end_pause <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">30</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">450</span>, fps <span class="op">=</span> <span class="fl">30</span>, end_pause <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">30</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README/board_animation-1.gif"><!-- --></p>
 <p>For a more comprehnsive example of how to customize your animation (including customizing aesthetics, geoms, and annotations), see <code><a href="articles/presidential_plinko.html">vignette("presidential_plinko")</a></code>.</p>
 </div>
@@ -136,7 +144,16 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/mjskay/plinko/">https://​github.com/​mjskay/​plinko/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/mjskay/plinko/issues/new">https://​github.com/​mjskay/​plinko/​issues/​new</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
